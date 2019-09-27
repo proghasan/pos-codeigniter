@@ -10,8 +10,3 @@
 
 <!-- Custom scripts -->
 <script src="assets/js/app-script.js"></script>
-
-<!-- Chart js -->
-<!-- <script src="assets/plugins/Chart.js/Chart.min.js"></script> -->
-<!-- Index2 js -->
-<!-- <script src="assets/js/index2.js"></script> -->

@@ -5,7 +5,9 @@ class HomeController extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('admin/home');
-		$this->load->view('admin/layouts/master')
+		$data['title'] = 'Home page';
+		//$data['bread'] = 'Home';
+		$data['content'] = $this->load->view('admin/home',$data, TRUE);
+		$this->load->view('admin/layouts/master',$data);
 	}
 }

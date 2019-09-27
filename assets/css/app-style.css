@@ -1,43 +1,3 @@
-/*
-Template Name: Bulona Admin
-Author: CODERVENT
-Email: codervent@gmail.com
-File: app-style
-*/
-
-/*  
-  - Google Font
-  - General
-  - Menu Sidebar Wrapper
-  - Page Content Wrapper
-  - Topbar Header
-  - Dropdown Menu
-  - User Details
-  - Logo
-  - SearachBar
-  - Cards
-  - Modals
-  - Buttons
-  - User Cards
-  - Forms
-  - Widgets
-  - Tables
-  - Alerts
-  - Badges
-  - Paginations
-  - List Groups
-  - Nav Tabs & Pills
-  - Accordions
-  - Background Colors
-  - Borders
-  - Text colors
-  - Shadows
-  - CheckBoxes & Radios
-  - Pricing Tables
-  - Responsive
-*/
-
-/* Google Font*/
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
 
 /* General */
@@ -60,7 +20,8 @@ html{
 }
 
 body {
-   	background-color: #e9eaec;
+   	/* background-color: #e9eaec; */
+   	background-color: #fff;
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     color: rgba(0, 0, 0, 0.72);

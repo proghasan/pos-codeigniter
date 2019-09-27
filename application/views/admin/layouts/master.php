@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <?php $this->load->view('admin/layouts/head')?>
 </head>
+
 <body>
   <!-- start loader -->
   <div id="pageloader-overlay" class="visible incoming">
@@ -27,8 +29,20 @@
 
     <div class="content-wrapper">
       <div class="container-fluid">
+        <!-- Breadcrumb-->
+        <div class="row pt-2 pb-2">
+          <div class="col-sm-9">
+            <!-- <h4 class="page-title">Dashboard</h4> -->
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="javaScript:void();">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="javaScript:void();"><?php echo isset($bread) ? $bread : '';?></a>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <!-- End Breadcrumb-->
 
-           <?php echo $content;?>
+        <?php echo $content;?>
 
       </div>
       <!-- End container-fluid-->
@@ -46,9 +60,10 @@
     <!--start color switcher-->
     <?php $this->load->view('admin/layouts/theme')?>
     <!--end color cwitcher-->
-    
+
   </div>
   <!--End wrapper-->
- <?php $this->load->view('admin/layouts/script')?>
+  <?php $this->load->view('admin/layouts/script')?>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 <div id="sidebar-wrapper" class="bg-theme bg-theme2" data-simplebar="" data-simplebar-auto-hide="true">
     <div class="brand-logo">
-        <a href="index.html">
+        <a href="/home">
             <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
             <h5 class="logo-text">Hisab Nikas</h5>
         </a>
@@ -23,19 +23,30 @@
         </div>
     </div>
     <ul class="sidebar-menu do-nicescrol">
-        
-        <li class="sidebar-header">MAIN NAVIGATION</li>
 
+        <li class="sidebar-header">MAIN NAVIGATION</li>
+        <li>
+            <a href="/unit" class="waves-effect">
+                <i class="fa fa-sitemap"></i> <span>Unit</span>
+            </a>
+        </li>
+        <li>
+            <a href="/color" class="waves-effect">
+                <i class="fa fa-circle-o-notch"></i> <span>Color</span>
+            </a>
+        </li>
         <li>
             <a href="javaScript:void();" class="waves-effect">
                 <i class="zmdi zmdi-format-list-bulleted"></i> <span>Forms</span>
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="sidebar-submenu">
-                <li><a href="form-inputs.html"><i class="zmdi zmdi-long-arrow-right"></i> Basic Inputs</a></li>
+                <li>
+                    <a href="/"><i class="zmdi zmdi-long-arrow-right"></i> Basic Inputs</a>
+                </li>
             </ul>
         </li>
-        
+
     </ul>
 
 </div>
