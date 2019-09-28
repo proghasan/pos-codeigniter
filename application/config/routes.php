@@ -37,6 +37,14 @@ $route['delete-product'] = 'ProductController/deleteProduct';
 $route['get-product-code'] = 'ProductController/productCode';
 //============= Product Section End ================//
 
+//============= Group Section Start ================//
+$route['group'] = 'GroupController';
+$route['get-groups'] = 'GroupController/getGroups';
+$route['save-group'] = 'GroupController/addGroup';
+$route['update-group'] = 'GroupController/updateGroup';
+$route['delete-group'] = 'GroupController/deleteGroup';
+//============= Group Section End ================//
+
 
 
 $route['404_override'] = '';
