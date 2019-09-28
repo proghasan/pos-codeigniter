@@ -36,6 +36,11 @@
             </a>
         </li>
         <li>
+            <a href="/product" class="waves-effect">
+                <i class="fa fa-circle-o-notch"></i> <span>product</span>
+            </a>
+        </li>
+        <li>
             <a href="javaScript:void();" class="waves-effect">
                 <i class="zmdi zmdi-format-list-bulleted"></i> <span>Forms</span>
                 <i class="fa fa-angle-left pull-right"></i>

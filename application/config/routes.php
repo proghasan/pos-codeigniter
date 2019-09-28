@@ -25,10 +25,17 @@ $route['get-colors'] = 'ColorController/getColors';
 $route['save-color'] = 'ColorController/addColor';
 $route['update-color'] = 'ColorController/updateColor';
 $route['delete-color'] = 'ColorController/deleteColor';
-
 //============= Color Section End ================//
 
 
+//============= Product Section Start ================//
+$route['product'] = 'ProductController';
+$route['get-products'] = 'ProductController/getProducts';
+$route['save-product'] = 'ProductController/addProduct';
+$route['update-product'] = 'ProductController/updateProduct';
+$route['delete-product'] = 'ProductController/deleteProduct';
+$route['get-product-code'] = 'ProductController/productCode';
+//============= Product Section End ================//
 
 
 
