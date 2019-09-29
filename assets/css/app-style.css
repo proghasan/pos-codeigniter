@@ -345,7 +345,7 @@ hr {
   left: 0px;
   z-index: 1000;
   overflow: hidden;
-  width: 240px;
+  width: 200px;
   height: 100%;
  -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -371,7 +371,7 @@ hr {
 
 /* Page Content Wrapper */
 .content-wrapper {
-    margin-left: 240px;
+    margin-left: 200px;
 	padding-top: 70px;
 	padding-left: 10px;
     padding-right: 10px;
@@ -583,7 +583,7 @@ hr {
 }
 
 .toggle-menu i {
-   margin-left: 240px;
+   margin-left: 200px;
    font-size: 14px;
    font-weight: 600;
    color: #000000;
@@ -2583,7 +2583,7 @@ hr {
   overflow: hidden;
 }
 .icon-container {
-  width: 240px; 
+  width: 200px; 
   padding: .7em 0;
   float: left; 
   position: relative;
@@ -5665,7 +5665,7 @@ table.grid td {
     left: -240px;
     z-index: 1000;
     overflow-y: auto;
-    width: 240px;
+    width: 200px;
     height: 100%;
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;

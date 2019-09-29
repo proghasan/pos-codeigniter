@@ -1,8 +1,8 @@
-<div id="sidebar-wrapper" class="bg-theme bg-theme2" data-simplebar="" data-simplebar-auto-hide="true">
+<div id="sidebar-wrapper" class="bg-theme bg-theme9" data-simplebar="" data-simplebar-auto-hide="true">
     <div class="brand-logo">
         <a href="/home">
             <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
-            <h5 class="logo-text">Hisab Nikas</h5>
+            <h5 class="logo-text" style="font-weight: bold;">EASY POS</h5>
         </a>
     </div>
     <div class="user-details">

@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Hisab Nikash - <?php echo $title;?></title>
+<title>Easy pos system - <?php echo $title;?></title>
 <!--favicon-->
 <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 <!-- simplebar CSS-->
