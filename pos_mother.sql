@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2019 at 09:51 AM
+-- Generation Time: Sep 29, 2019 at 08:42 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -119,22 +119,59 @@ CREATE TABLE `tbl_customers` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_groups`
+--
+
+CREATE TABLE `tbl_groups` (
+  `id` int(11) NOT NULL,
+  `group_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `added_by` tinyint(4) NOT NULL,
+  `update_by` tinyint(4) DEFAULT NULL,
+  `added_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `update_time` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_groups`
+--
+
+INSERT INTO `tbl_groups` (`id`, `group_name`, `is_deleted`, `added_by`, `update_by`, `added_time`, `update_time`) VALUES
+(1, 'AA', 0, 1, NULL, '2019-09-28 18:18:02', NULL),
+(2, 'HH', 0, 1, NULL, '2019-09-28 18:18:35', NULL),
+(3, 'HKJDW', 0, 1, NULL, '2019-09-28 18:39:46', NULL),
+(4, 'ASA', 0, 1, NULL, '2019-09-28 18:39:48', NULL),
+(5, 'AS', 0, 1, NULL, '2019-09-28 18:39:50', NULL),
+(6, 'AS New', 1, 1, 1, '2019-09-28 18:39:52', '2019-09-28 20:19:13');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_products`
 --
 
 CREATE TABLE `tbl_products` (
   `product_id` int(11) NOT NULL,
-  `product_code` int(11) NOT NULL,
+  `product_code` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `product_name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `unit_id` tinyint(4) NOT NULL,
+  `color_id` tinyint(4) NOT NULL,
   `branch` tinyint(4) NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `added_by` tinyint(4) NOT NULL,
   `added_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `update_by` tinyint(4) NOT NULL,
+  `update_by` tinyint(4) DEFAULT NULL,
   `update_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_products`
+--
+
+INSERT INTO `tbl_products` (`product_id`, `product_code`, `product_name`, `unit_id`, `color_id`, `branch`, `is_active`, `is_deleted`, `added_by`, `added_time`, `update_by`, `update_time`) VALUES
+(1, 'P00001', 't-shirt', 1, 2, 1, 1, 0, 1, '2019-09-27 16:38:08', NULL, ''),
+(2, 'P00002', 'Pant ok', 2, 3, 1, 1, 0, 1, '2019-09-27 16:48:37', 1, '2019-09-27 18:00:42');
 
 -- --------------------------------------------------------
 
@@ -371,6 +408,12 @@ ALTER TABLE `tbl_customers`
   ADD PRIMARY KEY (`customer_id`);
 
 --
+-- Indexes for table `tbl_groups`
+--
+ALTER TABLE `tbl_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
@@ -453,10 +496,16 @@ ALTER TABLE `tbl_customers`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tbl_groups`
+--
+ALTER TABLE `tbl_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchases_details`
