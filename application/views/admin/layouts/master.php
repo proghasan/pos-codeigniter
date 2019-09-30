@@ -34,8 +34,8 @@
           <div class="col-sm-9">
             <!-- <h4 class="page-title">Dashboard</h4> -->
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="javaScript:void();">Dashboard</a></li>
-              <li class="breadcrumb-item"><a href="javaScript:void();"><?php echo isset($bread) ? $bread : '';?></a>
+              <li class="breadcrumb-item"><a href="javaScript:void(0);">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="javaScript:void(0);"><?php echo isset($bread) ? $bread : '';?></a>
               </li>
             </ol>
           </div>

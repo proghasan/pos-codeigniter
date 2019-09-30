@@ -46,6 +46,11 @@ $route['delete-group'] = 'GroupController/deleteGroup';
 //============= Group Section End ================//
 
 
+//============= Product purchase Section Start ================//
+$route['product-purchase'] = 'PurchaseController';
+//============= Product purchase Section End ================//
+
+
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

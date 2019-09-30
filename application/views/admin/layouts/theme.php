@@ -1,4 +1,4 @@
-<div class="right-sidebar">
+<div class="right-sidebar" style="display:none">  
     <div class="switcher-icon">
         <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
     </div>

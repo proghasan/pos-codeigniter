@@ -31,12 +31,14 @@
 <!-- Start wrapper-->
  <div id="wrapper">
 
- <div class="loader-wrapper"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+ <div class="loader-wrapper">
+   <div class="lds-ring">
+    <div></div><div></div><div></div><div></div></div></div>
 	<div class="card card-authentication1 mx-auto my-5">
 		<div class="card-body">
 		 <div class="card-content p-2">
 		 	<div class="text-center">
-		 		<img src="assets/images/logo-icon.png" alt="logo icon">
+		 		<img width="31px;" src="/assets/images/logo-icon.png" alt="logo icon">
 		 	</div>
           <div class="card-title text-uppercase text-center py-3">Sign In</div>
           <?php echo '<label style="color:red">'.$this->session->flashdata("error").'</label>'; ?>

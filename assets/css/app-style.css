@@ -5398,7 +5398,7 @@ table.grid td {
   padding: 12px 30px;
   position: absolute;
   right: 0;
-  left: 240px;
+  left: 200px;
   background-color: white;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
   -webkit-transition: all 0.3s ease;
@@ -5788,6 +5788,7 @@ table.grid td {
 }
 input.form-control{
     height: 32px !important;
+    border-radius: 0px !important;
 }
 select.form-control {
     height: 32px !important;
@@ -5800,7 +5801,7 @@ select.form-control {
     width: 13px;
 }
 .custom-icon{
-    margin-left: -6px;
+    margin-left: -4px;
     font-size: 14px;
 }
 a{
@@ -5822,7 +5823,24 @@ a{
    
     color: #fff !important;
 }
-
-
+.box{
+    border: 1px solid red;
+}
+.custom_card{
+  border: 1px solid #ddd;
+  border-radius: 0px;
+}
+.custom_card_head{
+    border-radius: 0px;
+    color: #0078da !important;
+    background: aliceblue !important;
+    height: 35px !important;
+    line-height: 10px !important;
+}
+.custom_form {
+    margin-bottom: 0.3rem;
+    text-align: end;
+    text-transform: lowercase;
+}
 
 

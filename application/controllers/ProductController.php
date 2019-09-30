@@ -62,7 +62,8 @@ class ProductController extends CI_Controller
                                  p.product_code as code,
                                  p.product_name,
                                  c.color_name,
-                                 u.unit_name
+                                 u.unit_name,
+                                 CONCAT(product_name,'-', product_code) as display_name
 
                                 FROM tbl_products as p
                                 LEFT JOIN tbl_units as u on u.id = p.unit_id
