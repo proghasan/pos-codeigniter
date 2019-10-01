@@ -50,6 +50,10 @@ $route['delete-group'] = 'GroupController/deleteGroup';
 $route['product-purchase'] = 'PurchaseController';
 //============= Product purchase Section End ================//
 
+//============= Supplier Start ================//
+$route['get-selected-suppliers'] = 'SupplierController/getSeletedSuppliers';
+//============= Supplier End ================//
+
 
 
 $route['404_override'] = '';

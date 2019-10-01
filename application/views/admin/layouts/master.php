@@ -7,7 +7,7 @@
 
 <body>
   <!-- start loader -->
-  <div id="pageloader-overlay" class="visible incoming">
+  <div id="pageloader-overlay" class="visible incoming" style="display:none">
     <div class="loader-wrapper-outer">
       <div class="loader-wrapper-inner">
         <div class="loader"></div>

@@ -2954,7 +2954,7 @@ label {
 }
 
 .form-control:disabled, .form-control[readonly] {
-    background-color: rgba(158, 158, 158, 0.33);
+    background-color: rgba(230, 212, 212, 0.14);
     opacity: 1;
 }
 
@@ -5842,5 +5842,10 @@ a{
     text-align: end;
     text-transform: lowercase;
 }
-
-
+.dropdown-toggle{
+    height: 32px;
+    padding: 0px;
+}
+.v-select .vs__selected-options{
+    margin-top: -4px;
+}

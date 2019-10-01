@@ -30,7 +30,7 @@
                             <div class="form-group row custom_form" style="margin-top: -13px;">
                                 <label class="col-sm-3 col-form-label">Supplier</label>
                                 <div class="col-sm-8">
-                                    <input type="txet" class="form-control" placeholder="Supplier">
+                                  <v-select :options="suppliers" v-model="selectedSupplier" label="display_name" v-if="suppliers.length > 0"></v-select>
                                 </div>
                                 <div class="col-sm-1" style="padding: 0px">
                                     <a href="/supplier" target="_blank"
@@ -42,13 +42,19 @@
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Name</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" placeholder="Name">
+                                    <input type="txet" class="form-control" v-model="selectedSupplier.name" placeholder="Name" readonly>
                                 </div>
                             </div>
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Due</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" value="0.00" readonly>
+                                    <input type="txet" class="form-control" v-model="selectedSupplier.due_amount" placeholder="0.00" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row custom_form">
+                                <label class="col-sm-3 col-form-label">Barcode</label>
+                                <div class="col-sm-9">
+                                    <input type="txet" class="form-control" placeholder="-------" readonly>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +83,6 @@
                                     <input type="txet" class="form-control" placeholder="Supplier">
                                 </div>
                             </div>
-
                             <div class="form-row">
                                 <div class="form-group col-md-3"></div>
                                 <div class="form-group col-md-5">
@@ -89,10 +94,7 @@
                                     <input type="text" class="form-control">
                                 </div>
                             </div>
-
                             <button class="btn btn-sm btn-warning" style="float: right">Add Box</button>
-
-
                         </div>
                     </div>
                 </div>
@@ -104,9 +106,68 @@
                     <span>Amount Calculation</span>
                 </div>
                 <div class="card-body">
-
+                    <div class="form-group" style="margin-top: -16px;">
+                        <label>Sub Total</label>
+                        <input type="text" class="form-control" value="0.00" readonly>
+                      </div>
+                    <div class="form-group" style="margin-top: -14px;">
+                        <label>Discount</label>
+                        <input type="text" class="form-control" value="0.00">
+                    </div>
+                    <div class="form-row" style="margin-top: -14px;">
+                        <div class="form-group col-md-6">
+                            <label>Vat( % )</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Vat Amount</label>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: -14px;">
+                        <label>Transport Amount</label>
+                        <input type="text" class="form-control" value="0.00">
+                    </div>
+                    <div class="form-group" style="margin-top: -14px;">
+                        <label>Total Amount</label>
+                        <input type="text" class="form-control" value="0.00">
+                    </div>
+                   <div style="margin-top: -14px;">
+                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light m-1">Purchase Now</button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light m-1">Cancel</button>
+                   </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<?php $this->load->view('admin/layouts/vue') ?>
+<script src="/assets/js/vue/vue-select.min.js"></script>
+<script>
+ Vue.component('v-select', VueSelect.VueSelect);
+ new Vue({
+     el: "#root",
+     data:{
+         suppliers: [],
+         selectedSupplier: {
+            display_name: 'Select Supplier',
+            supplier_id: '',
+            name: '',
+            due:''
+         },
+
+
+     },
+     created(){
+        this.getSelectedSuppliers();
+     },
+     methods:{
+         getSelectedSuppliers(){
+            axios.get('/get-selected-suppliers').then(res => {
+                this.suppliers = res.data;
+            })
+         }
+
+     }
+ })
+</script>

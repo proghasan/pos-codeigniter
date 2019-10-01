@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2019 at 08:42 PM
+-- Generation Time: Oct 01, 2019 at 08:11 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -338,11 +338,12 @@ CREATE TABLE `tbl_sale_return` (
 
 CREATE TABLE `tbl_suppliers` (
   `supplier_id` int(11) NOT NULL,
+  `supplier_code` char(20) COLLATE utf8_unicode_ci NOT NULL,
   `due_amount` decimal(15,2) NOT NULL,
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `phone` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `address` int(11) DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `branch` tinyint(4) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `added_by` tinyint(4) NOT NULL,
@@ -350,6 +351,13 @@ CREATE TABLE `tbl_suppliers` (
   `update_by` tinyint(4) NOT NULL,
   `update_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_suppliers`
+--
+
+INSERT INTO `tbl_suppliers` (`supplier_id`, `supplier_code`, `due_amount`, `name`, `phone`, `email`, `address`, `branch`, `is_deleted`, `added_by`, `added_time`, `update_by`, `update_time`) VALUES
+(1, 'S00001', '0.00', 'Jabed Khan', '0174712121', 'a@gmail.com', 'Dhaka Bangladesh', 1, 0, 1, '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -547,7 +555,7 @@ ALTER TABLE `tbl_sale_return`
 -- AUTO_INCREMENT for table `tbl_suppliers`
 --
 ALTER TABLE `tbl_suppliers`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_units`

@@ -22,7 +22,7 @@ class SupplierController extends CI_Controller
 		$this->load->view('admin/layouts/master', $data);
     }
     
-    public function getSuppliers(){
+    public function getSeletedSuppliers(){
         $getSupplier = $this->db->query("
                         SELECT
                          sp.supplier_id,

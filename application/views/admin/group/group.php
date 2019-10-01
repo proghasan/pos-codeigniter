@@ -18,13 +18,14 @@
                         </form>
                     </div>
 
-                    <div class="col-md-12">
-                        <h5 class="p-2">Group List</h5>
+                    <div class="col-md-12 mt-4">
+                        <h5 style="margin-bottom:-30px">Group List</h5>
                         <div class="row">
+                            <div class="col-md-8"></div>
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group" style="margin-bottom: 5px;">
                                     <label for="filter" class="sr-only">Filter</label>
-                                    <input type="text" class="form-control" v-model="filter" placeholder="Filter">
+                                    <input type="text" class="form-control" v-model="filter" placeholder="Filter Group">
                                 </div>
                             </div>
                         </div>
