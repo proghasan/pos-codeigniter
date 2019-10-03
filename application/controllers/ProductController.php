@@ -94,11 +94,11 @@ class ProductController extends CI_Controller
         echo json_encode($res);
     }
 
-    public function getSelectedProduct(){
+    public function getSelectedProducts(){
         $selectProduct = $this->db->query("
                                 SELECT
                                   p.product_id,
-                                  p.
+                                  p.product_name,
                                   CONCAT(p.product_name,'-',p.product_code) as display_name
 
                                 FROM tbl_products as p
@@ -106,5 +106,6 @@ class ProductController extends CI_Controller
                                 LEFT JOIN tbl_colors as c on c.id = p.color_id
                                 WHERE p.is_deleted = 0 
                                 AND p.branch = ? ",$this->branch)->result();
+        echo json_encode($selectProduct);
     }
 }

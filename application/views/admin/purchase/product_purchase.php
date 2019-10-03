@@ -4,17 +4,16 @@
             <form>
                 <div class="form-row">
                     <div class="col">
-                        <input type="text" class="form-control" value="201912121" readonly>
+                      <input type="text" class="form-control" value="201912121" readonly>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" value="Main Shop" readonly>
+                      <input type="text" class="form-control" value="Main Shop" readonly>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" value="Admin" readonly>
+                      <input type="text" class="form-control" value="Admin" readonly>
                     </div>
                     <div class="col">
-                        <input type="date" class="form-control" placeholder="Last name"
-                            value="<?php echo date('Y-m-d')?>">
+                      <input type="date" class="form-control" placeholder="Last name" value="<?php echo date('Y-m-d')?>">
                     </div>
                 </div>
             </form>
@@ -54,7 +53,7 @@
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Barcode</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" placeholder="-------" readonly>
+                                    <input type="txet" class="form-control" v-model="product.barcode" placeholder="-------" readonly>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +61,7 @@
                             <div class="form-group row custom_form" style="margin-top: -13px;">
                                 <label class="col-sm-3 col-form-label">Product</label>
                                 <div class="col-sm-8">
-                                    <input type="txet" class="form-control" placeholder="Supplier">
+                                 <v-select :options="products" v-model="selectedProduct" label="display_name" v-if="products.length > 0"></v-select>
                                 </div>
                                 <div class="col-sm-1" style="padding: 0px">
                                     <a href="/supplier" target="_blank"
@@ -74,24 +73,24 @@
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Pr.Group</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" placeholder="Supplier">
+                                <v-select :options="groups" v-model="selectedGroup" label="display_name" v-if="groups.length > 0"></v-select>
                                 </div>
                             </div>
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Pur.Rate</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" placeholder="Supplier">
+                                    <input type="txet" class="form-control" v-model="product.purchase_rate" placeholder="Purchase Rate" @click="product.purchase_rate = product.purchase_rate == 0 ? '' : product.purchase_rate">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3"></div>
                                 <div class="form-group col-md-5">
                                     <label>Qty</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" v-model="product.qty" @click="product.qty = product.qty==0 ? '' : product.qty" placeholder="Qty">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Sale Rate</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" v-model="product.sale_rate" @click="product.sale_rate = product.sale_rate ==0 ? '': product.sale_rate" placeholder="Sale Rate">
                                 </div>
                             </div>
                             <button class="btn btn-sm btn-warning" style="float: right">Add Box</button>
@@ -148,25 +147,69 @@
  new Vue({
      el: "#root",
      data:{
-         suppliers: [],
-         selectedSupplier: {
+        product: {
+            purchase_date: '',
+            product_id: '',
+            group_id: '',
+            supplier_id: '',
+            purchase_rate: 0,
+            sale_rate: 0,
+            sub_total: 0,
+            qty: 0,
+            vat_percent: 0,
+            vat_amount: 0,
+            transport_amount: 0,
+            total: 0
+        },
+        suppliers: [],
+        selectedSupplier: {
             display_name: 'Select Supplier',
             supplier_id: '',
             name: '',
             due:''
-         },
+        },
+        products: [],
+        selectedProduct: {
+            product_id: '',
+            display_name: 'Select Product',
+            product_name: ''
+        },
+        groups: [],
+        selectedGroup: {
+            display_name: 'Select Group',
+            id: '',
+            group_name: ''
+        },
+        shop_info: {
+            invoice: '',
+            branch_name: '',
+            user_name: ''
+        }
+
 
 
      },
      created(){
         this.getSelectedSuppliers();
+        this.getSelectedProducts();
+        this.getSelectedGroups();
      },
      methods:{
-         getSelectedSuppliers(){
-            axios.get('/get-selected-suppliers').then(res => {
-                this.suppliers = res.data;
-            })
-         }
+        getSelectedSuppliers(){
+          axios.get('/get-selected-suppliers').then(res => {
+            this.suppliers = res.data;
+          })
+        },
+        getSelectedProducts(){
+          axios.get('/get-selected-products').then(res => {
+            this.products = res.data;
+          })
+        },
+        getSelectedGroups(){
+          axios.get('/get-seleted-groups').then(res => {
+            this.groups = res.data;
+          })
+        },
 
      }
  })

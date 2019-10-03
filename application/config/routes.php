@@ -35,6 +35,7 @@ $route['save-product'] = 'ProductController/addProduct';
 $route['update-product'] = 'ProductController/updateProduct';
 $route['delete-product'] = 'ProductController/deleteProduct';
 $route['get-product-code'] = 'ProductController/productCode';
+$route['get-selected-products'] = 'ProductController/getSelectedProducts';
 //============= Product Section End ================//
 
 //============= Group Section Start ================//
@@ -43,6 +44,7 @@ $route['get-groups'] = 'GroupController/getGroups';
 $route['save-group'] = 'GroupController/addGroup';
 $route['update-group'] = 'GroupController/updateGroup';
 $route['delete-group'] = 'GroupController/deleteGroup';
+$route['get-seleted-groups'] = 'GroupController/getSelectedGroups';
 //============= Group Section End ================//
 
 

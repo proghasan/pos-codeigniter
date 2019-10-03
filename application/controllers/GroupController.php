@@ -73,5 +73,15 @@ class GroupController extends CI_Controller
 		$getGroups = $this->db->where('is_deleted', 0)->order_by('id','desc')->get("tbl_groups")->result();
 		echo json_encode($getGroups);
 	}
+	public function getSelectedGroups(){
+		$groups = $this->db->query("
+								select 
+								  g.group_name,
+								  g.id,
+								  CONCAT(g.group_name) as display_name
+								from tbl_groups as g
+								where g.is_deleted = 0")->result();
+	    echo json_encode($groups);
+	}
 
 }
