@@ -4,16 +4,17 @@
             <form>
                 <div class="form-row">
                     <div class="col">
-                      <input type="text" class="form-control" value="201912121" readonly>
+                      <input type="text" class="form-control" v-model="singleData.invoice" readonly>
                     </div>
                     <div class="col">
-                      <input type="text" class="form-control" value="Main Shop" readonly>
+                      <input type="text" class="form-control" v-model="branch_info.branch_name" readonly>
                     </div>
                     <div class="col">
-                      <input type="text" class="form-control" value="Admin" readonly>
+                      <input type="text" class="form-control"  v-model="branch_info.name" readonly>
                     </div>
                     <div class="col">
-                      <input type="date" class="form-control" placeholder="Last name" value="<?php echo date('Y-m-d')?>">
+                      <input type="date" class="form-control" v-model="singleData.purchase_date">
+                      <!-- <date-picker :readonly="true" format="YYYY-MM-DD" name="date1"></date-picker> -->
                     </div>
                 </div>
             </form>
@@ -53,7 +54,7 @@
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Barcode</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" v-model="product.barcode" placeholder="-------" readonly>
+                                    <input type="txet" class="form-control" v-model="temp.barcode" placeholder="-------" readonly>
                                 </div>
                             </div>
                         </div>
@@ -73,31 +74,45 @@
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Pr.Group</label>
                                 <div class="col-sm-9">
-                                <v-select :options="groups" v-model="selectedGroup" label="display_name" v-if="groups.length > 0"></v-select>
+                                <v-select :options="groups" v-model="selectedGroup" label="display_name" v-if="groups.length > 0" @input="genBarcode()"></v-select>
                                 </div>
                             </div>
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Pur.Rate</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" v-model="product.purchase_rate" placeholder="Purchase Rate" @click="product.purchase_rate = product.purchase_rate == 0 ? '' : product.purchase_rate">
+                                    <input type="txet" class="form-control" v-model="temp.purchase_rate" placeholder="Purchase Rate" @click="temp.purchase_rate = temp.purchase_rate == 0 ? '' : temp.purchase_rate">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3"></div>
                                 <div class="form-group col-md-5">
                                     <label>Qty</label>
-                                    <input type="text" class="form-control" v-model="product.qty" @click="product.qty = product.qty==0 ? '' : product.qty" placeholder="Qty">
+                                    <input type="text" class="form-control" v-model="temp.qty" @click="temp.qty = temp.qty==0 ? '' : temp.qty" placeholder="Qty">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Sale Rate</label>
-                                    <input type="text" class="form-control" v-model="product.sale_rate" @click="product.sale_rate = product.sale_rate ==0 ? '': product.sale_rate" placeholder="Sale Rate">
+                                    <input type="text" class="form-control" v-model="temp.sale_rate" @click="temp.sale_rate = temp.sale_rate ==0 ? '': temp.sale_rate" placeholder="Sale Rate">
                                 </div>
                             </div>
-                            <button class="btn btn-sm btn-warning" style="float: right">Add Box</button>
+                            <button @click.prevent="addCart()" class="btn btn-sm btn-warning" style="float: right">Add Box</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>Pro.Name</th>
+                        <th>Group</th>
+                        <th>Pur.Rate</th>
+                        <th>Qty</th>
+                        <th>Sale Rate</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
         <div class="col-md-3" style="padding-right: 0px">
             <div class="card custom_card mt-2" style="box-shadow: none !important;border: 1px solid #ddd !important;">
@@ -142,20 +157,26 @@
 </div>
 <?php $this->load->view('admin/layouts/vue') ?>
 <script src="/assets/js/vue/vue-select.min.js"></script>
+<script src="/assets/js/moment.min.js"></script>
 <script>
  Vue.component('v-select', VueSelect.VueSelect);
  new Vue({
      el: "#root",
      data:{
-        product: {
-            purchase_date: '',
+        temp: {
             product_id: '',
             group_id: '',
-            supplier_id: '',
             purchase_rate: 0,
             sale_rate: 0,
             sub_total: 0,
             qty: 0,
+            barcode: ''
+        },
+        singleData: {
+            purchase_date: moment().format("YYYY-MM-DD"),
+            invoice: '',
+            supplier_id: '',
+            sub_total: 0,
             vat_percent: 0,
             vat_amount: 0,
             transport_amount: 0,
@@ -172,7 +193,8 @@
         selectedProduct: {
             product_id: '',
             display_name: 'Select Product',
-            product_name: ''
+            product_name: '',
+            product_code: ''
         },
         groups: [],
         selectedGroup: {
@@ -180,21 +202,26 @@
             id: '',
             group_name: ''
         },
-        shop_info: {
-            invoice: '',
+        branch_info: {
             branch_name: '',
-            user_name: ''
-        }
-
-
+            name: '' // login person name
+        }, 
+        cart: [],
 
      },
      created(){
+        this.getInvoice();
         this.getSelectedSuppliers();
         this.getSelectedProducts();
         this.getSelectedGroups();
+        this.getBranch();
      },
      methods:{
+        getInvoice(){
+          axios.get('/get-purchase-invoice').then(res => {
+            this.singleData.invoice = res.data;
+          })
+        },
         getSelectedSuppliers(){
           axios.get('/get-selected-suppliers').then(res => {
             this.suppliers = res.data;
@@ -210,7 +237,42 @@
             this.groups = res.data;
           })
         },
-
+        getBranch(){
+          axios.get('/get-branch-info').then(res => {
+            this.branch_info = res.data;
+          })
+        },
+        genBarcode(){
+            // note check this group product have or not this purchase_details table
+            // if find then this all data temp and readoly all input field 
+           if(this.selectedProduct.product_id !="" && this.selectedGroup.id !=""){
+              this.temp.barcode = this.selectedProduct.product_code+this.selectedGroup.id;
+           }
+        },
+        addCart(){
+            if(this.selectedProduct.product_id ==""){
+                alert("Please Select Product");
+                return;
+            }
+            if(this.selectedGroup.id ==""){
+                alert("Please Select Group");
+                return;
+            }
+            if(this.temp.sale_rate == "" || this.temp.purchase_rate =="" || this.temp.qty ==""){
+                alert("Please Select Fill All Field !!!");
+                return;
+            }
+            let tempCart = {
+                product_id: this.selectedProduct.product_id,
+                product_name: this.selectedProduct.product_name,
+                group_name: this.selectedGroup.group_name,
+                purchase_rate: this.temp.purchase_rate,
+                sale_rate: this.temp.sale_rate,
+                barcode: this.temp.barcode,
+                qty: this.temp.qty
+            }
+            this.cart.push(tempCart);
+        }
      }
  })
 </script>

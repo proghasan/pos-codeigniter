@@ -56,6 +56,11 @@ $route['product-purchase'] = 'PurchaseController';
 $route['get-selected-suppliers'] = 'SupplierController/getSeletedSuppliers';
 //============= Supplier End ================//
 
+//============= Basic Start ================//
+$route['get-branch-info'] = 'BasicController/getBranchInfo';
+$route['get-purchase-invoice'] = 'BasicController/getPurchaseInvoice';
+//============= Basic End ================//
+
 
 
 $route['404_override'] = '';

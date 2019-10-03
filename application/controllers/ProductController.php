@@ -99,6 +99,7 @@ class ProductController extends CI_Controller
                                 SELECT
                                   p.product_id,
                                   p.product_name,
+                                  p.product_code,
                                   CONCAT(p.product_name,'-',p.product_code) as display_name
 
                                 FROM tbl_products as p
