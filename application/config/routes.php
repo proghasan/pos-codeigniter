@@ -50,6 +50,10 @@ $route['get-seleted-groups'] = 'GroupController/getSelectedGroups';
 
 //============= Product purchase Section Start ================//
 $route['product-purchase'] = 'PurchaseController';
+$route['purchase-order'] = 'PurchaseController/purchaseOrder';
+$route['save-purchase'] = 'PurchaseController/purchaseOrder';
+$route['product-purchase-invoice/(:any)'] = 'PurchaseController/purchaseInvoice/$1';
+$route['check-already-exist'] = 'PurchaseController/checkAlreadyExits';
 //============= Product purchase Section End ================//
 
 //============= Supplier Start ================//

@@ -4,7 +4,7 @@
             <form>
                 <div class="form-row">
                     <div class="col">
-                      <input type="text" class="form-control" v-model="singleData.invoice" readonly>
+                      <input type="text" class="form-control" v-model="purchase.invoice" readonly>
                     </div>
                     <div class="col">
                       <input type="text" class="form-control" v-model="branch_info.branch_name" readonly>
@@ -13,7 +13,7 @@
                       <input type="text" class="form-control"  v-model="branch_info.name" readonly>
                     </div>
                     <div class="col">
-                      <input type="date" class="form-control" v-model="singleData.purchase_date">
+                      <input type="date" class="form-control" v-model="purchase.purchase_date">
                       <!-- <date-picker :readonly="true" format="YYYY-MM-DD" name="date1"></date-picker> -->
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Due</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" v-model="selectedSupplier.due_amount" placeholder="0.00" readonly>
+                                    <input type="txet" class="form-control" v-model="selectedSupplier.previous_due" placeholder="0.00" readonly>
                                 </div>
                             </div>
                             <div class="form-group row custom_form">
@@ -65,7 +65,7 @@
                                  <v-select :options="products" v-model="selectedProduct" label="display_name" v-if="products.length > 0"></v-select>
                                 </div>
                                 <div class="col-sm-1" style="padding: 0px">
-                                    <a href="/supplier" target="_blank"
+                                    <a href="/product" target="_blank"
                                         class="btn btn-xs btn-danger float-right small-btn">
                                         <i class="fa fa-plus custom-icon"></i>
                                     </a>
@@ -80,7 +80,7 @@
                             <div class="form-group row custom_form">
                                 <label class="col-sm-3 col-form-label">Pur.Rate</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" v-model="temp.purchase_rate" placeholder="Purchase Rate" @click="temp.purchase_rate = temp.purchase_rate == 0 ? '' : temp.purchase_rate">
+                                    <input :readonly="inputDisable" type="txet" class="form-control" v-model="temp.purchase_rate" placeholder="Purchase Rate" @click="temp.purchase_rate = temp.purchase_rate == 0 ? '' : temp.purchase_rate">
                                 </div>
                             </div>
                             <div class="form-row">
@@ -91,27 +91,43 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Sale Rate</label>
-                                    <input type="text" class="form-control" v-model="temp.sale_rate" @click="temp.sale_rate = temp.sale_rate ==0 ? '': temp.sale_rate" placeholder="Sale Rate">
+                                    <input :readonly="inputDisable" type="text" class="form-control" v-model="temp.sale_rate" @click="temp.sale_rate = temp.sale_rate ==0 ? '': temp.sale_rate" placeholder="Sale Rate">
                                 </div>
                             </div>
-                            <button @click.prevent="addCart()" class="btn btn-sm btn-warning" style="float: right">Add Box</button>
+                            <button @click.prevent="addCart()" class="btn btn-sm btn-warning" style="float: right" :disabled="loading ">{{ loading ? 'loading...' : 'Add Box'}}</button>
                         </div>
                     </div>
                 </div>
             </div>
             <table class="table table-bordered">
-                <thead>
+                <thead class="text-center">
                     <tr>
                         <th>SL</th>
                         <th>Pro.Name</th>
                         <th>Group</th>
+                        <th>Sale Rate</th>
                         <th>Pur.Rate</th>
                         <th>Qty</th>
-                        <th>Sale Rate</th>
                         <th>Total</th>
                         <th>Action</th>
                     </tr>
                 </thead>
+               <tbody class="text-center">
+                    <tr v-for="(cartData,index) in cart" style="display: none" :style="{display: show ? '' : 'hidden'}">
+                        <td>{{index+1}}</td>
+                        <td>{{cartData.product_name}}</td>
+                        <td>{{cartData.group_name}}</td>
+                        <td>{{cartData.sale_rate}}</td>
+                        <td>{{cartData.purchase_rate}}</td>
+                        <td>{{cartData.qty}}</td>
+                        <td>{{cartData.purchase_rate * cartData.qty}}</td>
+                        <td>
+                            <button @click.prevent="removeFromCart(index)" class="button" type="button">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+               </tbody>
             </table>
         </div>
         <div class="col-md-3" style="padding-right: 0px">
@@ -122,32 +138,42 @@
                 <div class="card-body">
                     <div class="form-group" style="margin-top: -16px;">
                         <label>Sub Total</label>
-                        <input type="text" class="form-control" value="0.00" readonly>
+                        <input type="text" class="form-control" v-model="purchase.sub_total" readonly>
                       </div>
                     <div class="form-group" style="margin-top: -14px;">
-                        <label>Discount</label>
-                        <input type="text" class="form-control" value="0.00">
+                        <label>Discount Amount</label>
+                        <input type="text" class="form-control" v-model="purchase.discount_amount" @input="calculation()">
                     </div>
                     <div class="form-row" style="margin-top: -14px;">
                         <div class="form-group col-md-6">
                             <label>Vat( % )</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control"  v-model="purchase.vat_percent" @input="calPercentToAmount()">
                         </div>
                         <div class="form-group col-md-6">
                             <label>Vat Amount</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control"  v-model="purchase.vat_amount" @input="calAmountPercent()">
                         </div>
                     </div>
                     <div class="form-group" style="margin-top: -14px;">
                         <label>Transport Amount</label>
-                        <input type="text" class="form-control" value="0.00">
+                        <input type="text" class="form-control" v-model="purchase.transport_amount" @input="calculation()">
                     </div>
                     <div class="form-group" style="margin-top: -14px;">
                         <label>Total Amount</label>
-                        <input type="text" class="form-control" value="0.00">
+                        <input type="text" class="form-control" v-model="purchase.total" readonly>
                     </div>
+                    <div class="form-row" style="margin-top: -14px;">
+                        <div class="form-group col-md-6">
+                            <label>Paid</label>
+                            <input type="text" class="form-control" v-model="purchase.paid" @input="calculation()">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Due</label>
+                            <input type="text" class="form-control" v-model="purchase.due" readonly>
+                        </div>
+                        </div>
                    <div style="margin-top: -14px;">
-                    <button type="button" class="btn btn-success btn-sm waves-effect waves-light m-1">Purchase Now</button>
+                    <button @click.prevent="savePurchase()" type="button" class="btn btn-success btn-sm waves-effect waves-light m-1" :readonly="loading">{{ loading ? 'loading...' : 'Purchase Now'}}</button>
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light m-1">Cancel</button>
                    </div>
                 </div>
@@ -163,6 +189,9 @@
  new Vue({
      el: "#root",
      data:{
+        show: false,
+        loading: false, 
+        inputDisable: false,
         temp: {
             product_id: '',
             group_id: '',
@@ -172,7 +201,7 @@
             qty: 0,
             barcode: ''
         },
-        singleData: {
+        purchase: {
             purchase_date: moment().format("YYYY-MM-DD"),
             invoice: '',
             supplier_id: '',
@@ -180,14 +209,18 @@
             vat_percent: 0,
             vat_amount: 0,
             transport_amount: 0,
-            total: 0
+            discount_amount: 0,
+            paid: 0,
+            due:0,
+            total: 0,
+            edit: false,
         },
         suppliers: [],
         selectedSupplier: {
             display_name: 'Select Supplier',
             supplier_id: '',
             name: '',
-            due:''
+            previous_due:''
         },
         products: [],
         selectedProduct: {
@@ -219,7 +252,7 @@
      methods:{
         getInvoice(){
           axios.get('/get-purchase-invoice').then(res => {
-            this.singleData.invoice = res.data;
+            this.purchase.invoice = res.data;
           })
         },
         getSelectedSuppliers(){
@@ -244,27 +277,45 @@
         },
         genBarcode(){
             // note check this group product have or not this purchase_details table
-            // if find then this all data temp and readoly all input field 
            if(this.selectedProduct.product_id !="" && this.selectedGroup.id !=""){
               this.temp.barcode = this.selectedProduct.product_code+this.selectedGroup.id;
+               //check this product already have or not in currentinventory
+              axios.post("/check-already-exist",{product_id: this.selectedProduct.product_id , group_id: this.selectedGroup.id}).then(res => {
+                  let r =res.data;
+                 if(r.success){
+                   this.temp.purchase_rate = r.purchase_rate;
+                   this.temp.sale_rate = r.sale_rate;
+                   this.inputDisable = true;
+                 }else{
+                   this.temp.purchase_rate = 0;
+                   this.temp.sale_rate = 0;
+                   this.inputDisable = false;
+                 }
+              })
            }
         },
         addCart(){
+            this.inputDisable = false;
+            this.loading = true;
             if(this.selectedProduct.product_id ==""){
                 alert("Please Select Product");
+                this.loading = false;
                 return;
             }
             if(this.selectedGroup.id ==""){
                 alert("Please Select Group");
+                this.loading = false;
                 return;
             }
             if(this.temp.sale_rate == "" || this.temp.purchase_rate =="" || this.temp.qty ==""){
                 alert("Please Select Fill All Field !!!");
+                this.loading = false;
                 return;
             }
             let tempCart = {
                 product_id: this.selectedProduct.product_id,
                 product_name: this.selectedProduct.product_name,
+                group_id: this.selectedGroup.id,
                 group_name: this.selectedGroup.group_name,
                 purchase_rate: this.temp.purchase_rate,
                 sale_rate: this.temp.sale_rate,
@@ -272,7 +323,75 @@
                 qty: this.temp.qty
             }
             this.cart.push(tempCart);
+            this.calculation();
+            this.clearFrom();
+            this.loading = false;
+            this.show = true;
+        },
+        removeFromCart(index){
+            this.cart.splice(index, 1);
+            this.calculation();
+        },
+        calculation(){
+            this.purchase.sub_total = this.cart.reduce((prev, curr) => { return prev + (parseFloat(curr.purchase_rate) * parseFloat(curr.qty) ); }, 0);
+            this.purchase.total = (parseFloat(this.purchase.sub_total) + parseFloat(this.purchase.vat_amount) + parseFloat(this.purchase.transport_amount)) - parseFloat(this.purchase.discount_amount);
+            this.purchase.due = this.purchase.total - parseFloat(this.purchase.paid);
+        },
+        calPercentToAmount(){
+            this.purchase.vat_amount = (parseFloat(this.purchase.sub_total) * parseFloat(this.purchase.vat_percent)) / 100;
+            this.calculation();
+        },
+        calAmountPercent(){
+            this.purchase.vat_percent = (parseFloat(this.purchase.vat_amount) * 100) / parseFloat(this.purchase.sub_total);
+            this.calculation()
+        },
+        savePurchase(){
+            this.loading = true;
+            let url = "/save-purchase";
+            if(this.purchase.edit){ url = "/update-purchase"}
+            this.purchase.supplier_id = this.selectedSupplier.supplier_id;
+            if( this.selectedSupplier.supplier_id ==""){ alert("Select Supplier."); return;}
+            axios.post(url,{purchase: this.purchase,supplier: this.selectedSupplier, cart: this.cart}).then(res => {
+                let r = res.data;
+                alert(r.message);
+                if(r.success){
+                  let conf = confirm('Do you want to view invoice ?');
+                  if(conf){
+                    if(conf){
+                        let invoice_url = "/product-purchase-invoice/"+r.purchase_id;
+                        window.open(invoice_url, '_blank');
+                        // await new Promise(re => setTimeout(re, 1000));
+                        window.location = '/product-purchase';
+                    }
+                  }
+
+                }
+            })
+        },
+        clearFrom(){
+            this.selectedGroup = null;
+            // this.selectedProduct = null;
+            this.temp= {
+              product_id: '',
+              group_id: '',
+              purchase_rate: 0,
+              sale_rate: 0,
+              qty: 0,
+              barcode: ''
+            },
+            this.selectedProduct= {
+              product_id: '',
+              display_name: 'Select Product',
+              product_name: '',
+              product_code: ''
+            },
+            this.selectedGroup= {
+              display_name: 'Select Group',
+              id: '',
+              group_name: ''
+            }
         }
+        
      }
  })
 </script>
