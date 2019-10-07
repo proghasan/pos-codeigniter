@@ -173,7 +173,7 @@
                         </div>
                         </div>
                    <div style="margin-top: -14px;">
-                    <button @click.prevent="savePurchase()" type="button" class="btn btn-success btn-sm waves-effect waves-light m-1" :readonly="loading">{{ loading ? 'loading...' : 'Purchase Now'}}</button>
+                    <button @click.prevent="savePurchase()" type="button" class="btn btn-success btn-sm waves-effect waves-light m-1" :disabled="loading">{{ loading ? 'loading...' : 'Purchase Now'}}</button>
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light m-1">Cancel</button>
                    </div>
                 </div>
@@ -350,21 +350,24 @@
             let url = "/save-purchase";
             if(this.purchase.edit){ url = "/update-purchase"}
             this.purchase.supplier_id = this.selectedSupplier.supplier_id;
-            if( this.selectedSupplier.supplier_id ==""){ alert("Select Supplier."); return;}
-            axios.post(url,{purchase: this.purchase,supplier: this.selectedSupplier, cart: this.cart}).then(res => {
+            if( this.selectedSupplier.supplier_id ==""){
+              alert("Select Supplier.");
+              this.loading = false;
+              return;
+            }
+            axios.post(url,{purchase: this.purchase,supplier: this.selectedSupplier, cart: this.cart}).then(async res => {
                 let r = res.data;
                 alert(r.message);
                 if(r.success){
                   let conf = confirm('Do you want to view invoice ?');
                   if(conf){
-                    if(conf){
                         let invoice_url = "/product-purchase-invoice/"+r.purchase_id;
                         window.open(invoice_url, '_blank');
-                        // await new Promise(re => setTimeout(re, 1000));
+                        await new Promise(re => setTimeout(re, 1000));
+                        window.location = '/product-purchase';
+                    }else{
                         window.location = '/product-purchase';
                     }
-                  }
-
                 }
             })
         },
