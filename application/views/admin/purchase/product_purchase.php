@@ -1,6 +1,7 @@
 <style>
 .mx-datepicker{
-    width: 276px !important;
+    /* width: 276px !important; */
+    width: 100%;
 }
 </style>
 <div id="root">

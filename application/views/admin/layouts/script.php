@@ -10,3 +10,10 @@
 
 <!-- Custom scripts -->
 <script src="assets/js/app-script.js"></script>
+<?php if($this->uri->segment(1) == "product-purchase"): ?>
+<script>
+    $(document).ready(function(){ 
+       $("#wrapper").toggleClass("toggled");
+    })
+</script>
+<?php endif;?>
