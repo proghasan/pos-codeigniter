@@ -28,6 +28,9 @@ class PurchaseController extends CI_Controller
 		$res = ['success' => false, 'message' => '', 'purchase_id' => ''];
 		try{
 			$data = json_decode($this->input->raw_input_stream);
+			echo "<pre>";
+			print_r($data);
+			exit;
 			$invoice = $this->codeRat->genInvoice("purchase_id","tbl_purchase_master");
 			$previous_due = $this->ac->supplierCurrentDue($data->purchase->supplier_id);
 			$purchaseMater = array( 

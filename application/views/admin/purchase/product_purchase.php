@@ -1,3 +1,8 @@
+<style>
+.mx-datepicker{
+    width: 276px !important;
+}
+</style>
 <div id="root">
     <div class="row">
         <div class="col-md-12" style="border-bottom: 1px solid #ddd;padding: 0px;padding-bottom: 9px;margin-top: -15px;">
@@ -13,8 +18,9 @@
                       <input type="text" class="form-control"  v-model="branch_info.name" readonly>
                     </div>
                     <div class="col">
-                      <input type="date" class="form-control" v-model="purchase.purchase_date">
+                      <!-- <input type="date" class="form-control" v-model="purchase.purchase_date"> -->
                       <!-- <date-picker :readonly="true" format="YYYY-MM-DD" name="date1"></date-picker> -->
+                      <date-picker v-model="purchase.purchase_date" lang="en" format="YYYY-MM-DD"></date-picker>
                     </div>
                 </div>
             </form>
@@ -62,7 +68,7 @@
                             <div class="form-group row custom_form" style="margin-top: -13px;">
                                 <label class="col-sm-3 col-form-label">Product</label>
                                 <div class="col-sm-8">
-                                 <v-select :options="products" v-model="selectedProduct" label="display_name" v-if="products.length > 0"></v-select>
+                                 <v-select :options="products" v-model="selectedProduct" label="display_name" v-if="products.length > 0" @input="genBarcode()"></v-select>
                                 </div>
                                 <div class="col-sm-1" style="padding: 0px">
                                     <a href="/product" target="_blank"
@@ -184,10 +190,14 @@
 <?php $this->load->view('admin/layouts/vue') ?>
 <script src="/assets/js/vue/vue-select.min.js"></script>
 <script src="/assets/js/moment.min.js"></script>
+<script src="/assets/js/vue/vue-datepicker.js"></script>
 <script>
  Vue.component('v-select', VueSelect.VueSelect);
  new Vue({
      el: "#root",
+     component:{
+         datePicker: 'date-picker'
+     },
      data:{
         show: false,
         loading: false, 
@@ -350,11 +360,19 @@
             let url = "/save-purchase";
             if(this.purchase.edit){ url = "/update-purchase"}
             this.purchase.supplier_id = this.selectedSupplier.supplier_id;
+            if(this.cart.length==0){
+                alert("Your Cart Empty !!!");
+                this.loading = false;
+                return;
+            }
             if( this.selectedSupplier.supplier_id ==""){
               alert("Select Supplier.");
               this.loading = false;
               return;
             }
+            // date format
+            this.purchase.purchase_date =moment(this.purchase.purchase_date).format('YYYY-MM-DD');
+
             axios.post(url,{purchase: this.purchase,supplier: this.selectedSupplier, cart: this.cart}).then(async res => {
                 let r = res.data;
                 alert(r.message);

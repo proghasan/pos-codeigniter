@@ -65,6 +65,11 @@ $route['get-branch-info'] = 'BasicController/getBranchInfo';
 $route['get-purchase-invoice'] = 'BasicController/getPurchaseInvoice';
 //============= Basic End ================//
 
+//============= Stock Start ================//
+$route['stock'] = 'StockController';
+$route['get-current-stock'] = 'StockController/getCurrentStock';
+//============= stak End ================//
+
 
 
 $route['404_override'] = '';

@@ -61,7 +61,7 @@
            
             <li class="nav-item">
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                    <span class="user-profile"><img src="assets/images/avatars/avatar-13.png" class="img-circle"
+                    <span class="user-profile"><img src="assets/images/avatars/hasan.jpg" class="img-circle"
                             alt="user avatar">
                         <span style="padding: 4px;font-size: 16px;">Hasan Sheikh</span>
                         </span>

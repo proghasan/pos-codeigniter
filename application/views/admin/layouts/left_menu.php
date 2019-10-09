@@ -8,10 +8,10 @@
     <div class="user-details">
         <div class="media align-items-center user-pointer collapsed" data-toggle="collapse"
             data-target="#user-dropdown">
-            <div class="avatar"><img class="mr-3 side-user-img" src="assets/images/avatars/avatar-13.png"
+            <div class="avatar"><img class="mr-3 side-user-img" src="assets/images/avatars/hasan.jpg"
                     alt="user avatar"></div>
             <div class="media-body">
-                <h6 class="side-user-name">Mark Johnson</h6>
+                <h6 class="side-user-name">Hasan Sheikh</h6>
             </div>
         </div>
         <div id="user-dropdown" class="collapse">
