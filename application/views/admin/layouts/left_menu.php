@@ -60,9 +60,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="sidebar-submenu">
-                <li>
-                    <a href="/stock"><i class="zmdi zmdi-long-arrow-right"></i>Stock</a>
-                </li>
+                <li><a href="/stock"><i class="zmdi zmdi-long-arrow-right"></i>Stock</a></li>
+                <li><a href="/purchase-report"><i class="zmdi zmdi-long-arrow-right"></i>Purchase Report</a></li>
             </ul>
         </li>
         <li>

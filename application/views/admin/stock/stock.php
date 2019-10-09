@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="display: none" :style="{display: show ? '' : 'none'}">
         <div class="col-md-12">
             <h3 class="text-center mt-3 mb-3">Product Stock</h3>
              <button class="btn btn-sm btn-primary float-right mb-2"> <i class="fa fa-print"></i> Print</button>
@@ -66,6 +66,7 @@
   new Vue({
     el: "#root",
     data: {
+        show: false,
         stock_status: 'All',
         stocks: [],
         products: [],
@@ -82,7 +83,7 @@
             group_name: ''
         },
         thColor: {
-            background: 'red',
+            background: '#ffa3a3',
             color:'white'
         }
     },
@@ -101,6 +102,7 @@
             }
             axios.post(url,searchItem).then(res => {
                 this.stocks = res.data;
+                this.show =true;
             })
         },
         getSelectedProducts(){
