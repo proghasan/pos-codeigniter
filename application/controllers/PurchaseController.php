@@ -20,7 +20,7 @@ class PurchaseController extends CI_Controller
 	{
 		$data['title'] = 'Product Purchase';
 		$data['bread'] = 'Product Purchase';
-		$data['content'] = $this->load->view('admin/purchase/Product_purchase', $data, TRUE);
+		$data['content'] = $this->load->view('admin/purchase/product_purchase', $data, TRUE);
 		$this->load->view('admin/layouts/master', $data);
 	}
 	public function purchaseOrder()
@@ -116,6 +116,40 @@ class PurchaseController extends CI_Controller
 
 	public function purchaseInvoice($id){
 		echo $id;
+	}
+	public function purchaseReport(){
+		$data['title'] = 'Purchase Report';
+		$data['bread'] = 'Purchase Report';
+		$data['content'] = $this->load->view('admin/purchase/purchase_report', $data, TRUE);
+		$this->load->view('admin/layouts/master', $data);
+	}
+	public function getPurchaseReports(){
+		$data = json_decode($this->input->raw_input_stream);
+		$end = "";
+		if($data->supplier_id !=""){
+			$end .=" and pm.supplier_id = '$data->supplier_id'";
+		}
+		$getData = $this->db->query("
+						SELECT
+							pm.invoice,
+							pm.sub_total,
+							pm.discount_amount,
+							pm.previous_due,
+							pm.total,
+							pm.supplier_id,
+							pm.paid,
+							pm.purchase_date,
+							s.name,
+							s.supplier_code
+							
+						FROM tbl_purchase_master as pm
+						LEFT JOIN tbl_suppliers as s on s.supplier_id = pm.supplier_id
+						WHERE pm.is_deleted =0 AND pm.branch = ? 
+						AND pm.purchase_date BETWEEN ? AND ?
+						$end
+						",[$this->branch, $data->start_date, $data->end_date])->result();
+		echo json_encode($getData);
+	
 	}
 
 

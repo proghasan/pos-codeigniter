@@ -28,7 +28,7 @@
     <div class="clearfix"></div>
 
     <div class="content-wrapper">
-      <div class="container-fluid">
+      <div class="container-fluid" style="height:600px">
         <!-- Breadcrumb-->
         <div class="row pt-2 pb-2">
           <div class="col-sm-9" style="padding:0">
