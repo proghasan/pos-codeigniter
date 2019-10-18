@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2019 at 08:27 PM
+-- Generation Time: Oct 18, 2019 at 04:50 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -122,9 +122,9 @@ CREATE TABLE `tbl_current_inventory` (
 --
 
 INSERT INTO `tbl_current_inventory` (`inventory_id`, `barcode`, `product_id`, `group_id`, `purchase_quantity`, `purchase_rate`, `sale_quantity`, `sale_rate`, `purchase_return_quantity`, `sale_return_quantity`, `transfer_from_quantity`, `transfer_to_quantity`, `damage_quantity`, `branch`) VALUES
-(9, 'P000023', 2, 3, 10, '100.00', 0, '150.00', 0, 0, 0, 0, 0, 1),
+(9, 'P000023', 2, 3, 431, '100.00', 0, '150.00', 0, 0, 0, 0, 0, 1),
 (10, 'P000014', 1, 4, 2, '20.00', 0, '50.00', 0, 0, 0, 0, 0, 1),
-(11, 'P000024', 2, 4, 204, '120.00', 0, '150.00', 0, 0, 0, 0, 0, 1);
+(11, 'P000024', 2, 4, 294, '120.00', 0, '150.00', 0, 0, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -215,6 +215,7 @@ CREATE TABLE `tbl_purchases_details` (
   `purchase_detail_id` int(11) NOT NULL,
   `purchase_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
+  `barcode` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `group_id` tinyint(4) NOT NULL,
   `qty` int(11) NOT NULL,
   `purchase_rate` decimal(10,2) NOT NULL,
@@ -233,13 +234,23 @@ CREATE TABLE `tbl_purchases_details` (
 -- Dumping data for table `tbl_purchases_details`
 --
 
-INSERT INTO `tbl_purchases_details` (`purchase_detail_id`, `purchase_id`, `product_id`, `group_id`, `qty`, `purchase_rate`, `sale_rate`, `purchase_date`, `total`, `branch`, `is_deleted`, `added_by`, `added_time`, `update_by`, `update_time`) VALUES
-(13, 16, 2, 3, 5, '100.00', '150.00', '2019-10-07', '500.00', 1, 0, 1, '2019-10-07 07:47:23', 0, ''),
-(14, 16, 1, 4, 2, '20.00', '50.00', '2019-10-07', '40.00', 1, 0, 1, '2019-10-07 07:47:23', 0, ''),
-(15, 17, 2, 4, 99, '120.00', '150.00', '2019-10-07', '11880.00', 1, 0, 1, '2019-10-07 07:51:06', 0, ''),
-(16, 18, 2, 3, 5, '100.00', '180.00', '2019-10-07', '500.00', 1, 0, 1, '2019-10-07 07:54:14', 0, ''),
-(17, 19, 2, 4, 100, '100.00', '100.00', '2019-10-07', '10000.00', 1, 0, 1, '2019-10-07 07:55:11', 0, ''),
-(18, 20, 2, 4, 5, '90.00', '100.00', '2019-10-08', '450.00', 1, 0, 1, '2019-10-07 08:02:01', 0, '');
+INSERT INTO `tbl_purchases_details` (`purchase_detail_id`, `purchase_id`, `product_id`, `barcode`, `group_id`, `qty`, `purchase_rate`, `sale_rate`, `purchase_date`, `total`, `branch`, `is_deleted`, `added_by`, `added_time`, `update_by`, `update_time`) VALUES
+(13, 16, 2, '', 3, 5, '100.00', '150.00', '2019-10-07', '500.00', 1, 1, 1, '2019-10-07 07:47:23', 0, ''),
+(14, 16, 1, '', 4, 2, '20.00', '50.00', '2019-10-07', '40.00', 1, 1, 1, '2019-10-07 07:47:23', 0, ''),
+(15, 17, 2, '', 4, 99, '120.00', '150.00', '2019-10-07', '11880.00', 1, 0, 1, '2019-10-07 07:51:06', 0, ''),
+(16, 18, 2, '', 3, 5, '100.00', '180.00', '2019-10-07', '500.00', 1, 0, 1, '2019-10-07 07:54:14', 0, ''),
+(17, 19, 2, '', 4, 100, '100.00', '100.00', '2019-10-07', '10000.00', 1, 0, 1, '2019-10-07 07:55:11', 0, ''),
+(18, 20, 2, '', 4, 5, '90.00', '100.00', '2019-10-08', '450.00', 1, 0, 1, '2019-10-07 08:02:01', 0, ''),
+(19, 21, 2, '', 3, 100, '100.00', '150.00', '2019-10-08', '10000.00', 1, 0, 1, '2019-10-07 08:34:30', 0, ''),
+(20, 22, 2, '', 4, 90, '120.00', '150.00', '2019-10-08', '10800.00', 1, 0, 1, '2019-10-07 08:36:20', 0, ''),
+(21, 23, 2, '', 3, 100, '100.00', '150.00', '2019-10-08', '10000.00', 1, 0, 1, '2019-10-07 08:41:12', 0, ''),
+(22, 24, 2, '', 3, 100, '100.00', '150.00', '2019-10-08', '10000.00', 1, 0, 1, '2019-10-07 08:43:44', 0, ''),
+(23, 25, 2, '', 3, 121, '100.00', '150.00', '2019-10-08', '12100.00', 2, 0, 1, '2019-10-07 08:44:03', 0, ''),
+(24, 26, 2, 'P000021', 1, 5, '120.00', '150.00', '2019-10-18', '600.00', 1, 0, 1, '2019-10-18 04:20:37', 0, ''),
+(25, 16, 2, '', 3, 5, '100.00', '150.00', '2019-10-07', '500.00', 1, 0, 1, '2019-10-18 04:32:08', 0, ''),
+(26, 27, 2, 'P000024', 4, 10, '120.00', '150.00', '2019-10-18', '1200.00', 1, 1, 1, '2019-10-18 04:38:53', 0, ''),
+(27, 27, 1, 'P000013', 3, 12, '12.00', '1212.00', '2019-10-18', '144.00', 1, 1, 1, '2019-10-18 04:38:53', 0, ''),
+(28, 27, 2, 'P000024', 4, 10, '120.00', '150.00', '2019-10-18', '1200.00', 1, 0, 1, '2019-10-18 04:41:22', 0, '');
 
 -- --------------------------------------------------------
 
@@ -250,7 +261,7 @@ INSERT INTO `tbl_purchases_details` (`purchase_detail_id`, `purchase_id`, `produ
 CREATE TABLE `tbl_purchase_master` (
   `purchase_id` int(11) NOT NULL,
   `supplier_id` smallint(6) NOT NULL,
-  `invoice` smallint(10) NOT NULL,
+  `invoice` int(11) NOT NULL,
   `sub_total` decimal(15,2) NOT NULL,
   `discount_percent` smallint(6) NOT NULL,
   `discount_amount` decimal(15,2) NOT NULL,
@@ -258,6 +269,7 @@ CREATE TABLE `tbl_purchase_master` (
   `vat_amount` decimal(10,2) NOT NULL,
   `transport_cost` decimal(10,2) NOT NULL,
   `other_cost` decimal(10,2) NOT NULL,
+  `round_amount` float NOT NULL,
   `total` decimal(15,2) NOT NULL,
   `paid` decimal(15,2) NOT NULL,
   `due` decimal(15,2) NOT NULL,
@@ -276,12 +288,19 @@ CREATE TABLE `tbl_purchase_master` (
 -- Dumping data for table `tbl_purchase_master`
 --
 
-INSERT INTO `tbl_purchase_master` (`purchase_id`, `supplier_id`, `invoice`, `sub_total`, `discount_percent`, `discount_amount`, `vat_percent`, `vat_amount`, `transport_cost`, `other_cost`, `total`, `paid`, `due`, `previous_due`, `comment`, `branch`, `purchase_date`, `is_deleted`, `added_by`, `added_time`, `update_by`, `update_time`) VALUES
-(16, 1, 32767, '540.00', 0, '10.00', 10, '54.00', '20.00', '0.00', '604.00', '600.00', '4.00', '0.00', '', 1, '2019-10-07', 0, 1, '2019-10-07 07:47:23', '', ''),
-(17, 1, 32767, '11880.00', 0, '0.00', 0, '0.00', '0.00', '0.00', '11880.00', '0.00', '11880.00', '0.00', '', 1, '2019-10-07', 0, 1, '2019-10-07 07:51:06', '', ''),
-(18, 1, 32767, '500.00', 0, '0.00', 0, '0.00', '0.00', '0.00', '500.00', '0.00', '500.00', '0.00', '', 1, '2019-10-07', 0, 1, '2019-10-07 07:54:14', '', ''),
-(19, 1, 32767, '10000.00', 0, '0.00', 0, '0.00', '0.00', '0.00', '10000.00', '0.00', '10000.00', '0.00', '', 1, '2019-10-07', 0, 1, '2019-10-07 07:55:11', '', ''),
-(20, 1, 32767, '450.00', 0, '0.00', 0, '0.00', '0.00', '0.00', '450.00', '0.00', '450.00', '0.00', '', 1, '2019-10-08', 0, 1, '2019-10-07 08:02:01', '', '');
+INSERT INTO `tbl_purchase_master` (`purchase_id`, `supplier_id`, `invoice`, `sub_total`, `discount_percent`, `discount_amount`, `vat_percent`, `vat_amount`, `transport_cost`, `other_cost`, `round_amount`, `total`, `paid`, `due`, `previous_due`, `comment`, `branch`, `purchase_date`, `is_deleted`, `added_by`, `added_time`, `update_by`, `update_time`) VALUES
+(16, 1, 32767, '540.00', 0, '10.00', 10, '54.00', '20.00', '0.00', 0, '604.00', '600.00', '4.00', '76334.00', '', 1, '2019-10-07', 0, 1, '2019-10-07 07:47:23', '', ''),
+(17, 1, 32767, '11880.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '11880.00', '0.00', '11880.00', '0.00', '', 1, '2019-10-07', 0, 1, '2019-10-07 07:51:06', '', ''),
+(18, 1, 32767, '500.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '500.00', '0.00', '500.00', '0.00', '', 1, '2019-10-07', 0, 1, '2019-10-07 07:54:14', '', ''),
+(19, 1, 32767, '10000.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '10000.00', '0.00', '10000.00', '0.00', '', 1, '2019-10-07', 0, 1, '2019-10-07 07:55:11', '', ''),
+(20, 1, 2019100021, '450.00', 0, '0.00', 0, '0.00', '22.00', '0.00', 0, '450.00', '0.00', '450.00', '0.00', '', 1, '2019-10-08', 0, 1, '2019-10-07 08:02:01', '', ''),
+(21, 1, 2019100021, '10000.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '10000.00', '0.00', '10000.00', '0.00', '', 1, '2019-10-08', 0, 1, '2019-10-07 08:34:30', '', ''),
+(22, 1, 2019100022, '10800.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '10800.00', '0.00', '10800.00', '0.00', '', 1, '2019-10-08', 0, 1, '2019-10-07 08:36:19', '', ''),
+(23, 1, 2019100023, '10000.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '10000.00', '0.00', '10000.00', '0.00', '', 1, '2019-10-08', 0, 1, '2019-10-07 08:41:12', '', ''),
+(24, 1, 2019100024, '10000.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '10000.00', '0.00', '10000.00', '0.00', '', 1, '2019-10-08', 0, 1, '2019-10-07 08:43:44', '', ''),
+(25, 1, 2019100025, '12100.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0.6, '12100.00', '0.00', '12100.00', '0.00', '', 1, '2019-10-08', 0, 1, '2019-10-07 08:44:03', '', ''),
+(26, 1, 2019100026, '600.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '600.00', '0.00', '600.00', '75734.00', '', 1, '2019-10-18', 0, 1, '2019-10-18 04:20:37', '', ''),
+(27, 1, 2019100027, '1344.00', 0, '10.00', 10, '134.40', '20.00', '0.00', 0, '1488.40', '200.00', '1288.40', '77622.40', '', 1, '2019-10-18', 0, 1, '2019-10-18 04:38:53', '', '');
 
 -- --------------------------------------------------------
 
@@ -291,15 +310,17 @@ INSERT INTO `tbl_purchase_master` (`purchase_id`, `supplier_id`, `invoice`, `sub
 
 CREATE TABLE `tbl_purchase_return` (
   `purchase_return_id` int(11) NOT NULL,
+  `return_date` date NOT NULL,
   `purchase_id` int(11) NOT NULL,
   `supplier_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
+  `cash_back_amount` decimal(15,2) NOT NULL,
   `qty` int(11) NOT NULL,
   `purchase_price` decimal(15,2) NOT NULL,
   `total` decimal(15,2) NOT NULL,
-  `return_date` date NOT NULL,
   `branch` tinyint(4) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `added_by` int(11) NOT NULL,
   `added_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `update_by` tinyint(4) NOT NULL,
@@ -347,6 +368,7 @@ CREATE TABLE `tbl_sale_master` (
   `vat_percent` tinyint(4) NOT NULL,
   `vat_amount` decimal(10,2) NOT NULL,
   `other_cost` decimal(10,2) NOT NULL,
+  `round_amount` float NOT NULL,
   `total` decimal(15,2) NOT NULL,
   `paid` decimal(15,2) NOT NULL,
   `due` decimal(15,2) NOT NULL,
@@ -417,6 +439,28 @@ INSERT INTO `tbl_suppliers` (`supplier_id`, `supplier_code`, `due_amount`, `name
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_supplier_payment`
+--
+
+CREATE TABLE `tbl_supplier_payment` (
+  `supplier_payment_id` int(11) NOT NULL,
+  `entry_date` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `amount` decimal(15,2) NOT NULL,
+  `current_due` decimal(20,2) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `is_pending` tinyint(1) NOT NULL DEFAULT '0',
+  `branch` tinyint(4) NOT NULL,
+  `added_by` tinyint(4) NOT NULL,
+  `added_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `updated_by` tinyint(4) NOT NULL,
+  `updated_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `log` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_units`
 --
 
@@ -440,7 +484,17 @@ INSERT INTO `tbl_units` (`id`, `unit_name`, `is_deleted`, `added_by`, `update_by
 (3, 'OK', 1, 1, 1, '2019-09-27 08:51:42', '2019-09-27 09:20:50'),
 (4, 'Pices y', 1, 1, 1, '2019-09-27 09:23:25', '2019-09-27 09:24:17'),
 (5, 'sds', 1, 1, NULL, '2019-09-27 09:27:37', ''),
-(6, 'Work Yest', 1, 1, 1, '2019-09-27 09:28:37', '2019-09-27 09:28:45');
+(6, 'Work Yest', 1, 1, 1, '2019-09-27 09:28:37', '2019-09-27 09:28:45'),
+(7, 'ab', 0, 1, NULL, '2019-10-13 19:39:36', ''),
+(8, 'gm', 0, 1, NULL, '2019-10-13 19:39:46', ''),
+(9, 'PP', 0, 1, NULL, '2019-10-13 19:39:50', ''),
+(10, 'HH', 0, 1, NULL, '2019-10-13 19:39:54', ''),
+(11, 'HHH', 0, 1, NULL, '2019-10-13 19:40:05', ''),
+(12, 'HH', 0, 1, NULL, '2019-10-13 19:41:42', ''),
+(13, 'QQ', 0, 1, NULL, '2019-10-13 19:41:51', ''),
+(14, 'LLL', 0, 1, NULL, '2019-10-13 19:41:57', ''),
+(15, 'KK', 0, 1, NULL, '2019-10-13 19:41:59', ''),
+(16, 'KKpp', 0, 1, NULL, '2019-10-13 19:42:05', '');
 
 --
 -- Indexes for dumped tables
@@ -531,6 +585,12 @@ ALTER TABLE `tbl_suppliers`
   ADD PRIMARY KEY (`supplier_id`);
 
 --
+-- Indexes for table `tbl_supplier_payment`
+--
+ALTER TABLE `tbl_supplier_payment`
+  ADD PRIMARY KEY (`supplier_payment_id`);
+
+--
 -- Indexes for table `tbl_units`
 --
 ALTER TABLE `tbl_units`
@@ -586,13 +646,13 @@ ALTER TABLE `tbl_products`
 -- AUTO_INCREMENT for table `tbl_purchases_details`
 --
 ALTER TABLE `tbl_purchases_details`
-  MODIFY `purchase_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `purchase_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase_master`
 --
 ALTER TABLE `tbl_purchase_master`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase_return`
@@ -625,10 +685,16 @@ ALTER TABLE `tbl_suppliers`
   MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `tbl_supplier_payment`
+--
+ALTER TABLE `tbl_supplier_payment`
+  MODIFY `supplier_payment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_units`
 --
 ALTER TABLE `tbl_units`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

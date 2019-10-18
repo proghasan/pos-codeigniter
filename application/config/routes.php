@@ -50,12 +50,14 @@ $route['get-seleted-groups'] = 'GroupController/getSelectedGroups';
 
 //============= Product purchase Section Start ================//
 $route['product-purchase'] = 'PurchaseController';
-$route['purchase-order'] = 'PurchaseController/purchaseOrder';
+$route['product-purchase/(:num)'] = 'PurchaseController/productPurchaseEdit/$1';
+$route['get-single-purchase-data'] = 'PurchaseController/getSinglePurchase';
 $route['purchase-report'] = 'PurchaseController/purchaseReport';
 $route['get-purchase-reports'] = 'PurchaseController/getPurchaseReports';
 $route['save-purchase'] = 'PurchaseController/purchaseOrder';
 $route['product-purchase-invoice/(:any)'] = 'PurchaseController/purchaseInvoice/$1';
 $route['check-already-exist'] = 'PurchaseController/checkAlreadyExits';
+$route['update-purchase'] = 'PurchaseController/purchaseUpdateProcess';
 //============= Product purchase Section End ================//
 
 //============= Supplier Start ================//

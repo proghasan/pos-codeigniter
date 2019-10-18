@@ -53,9 +53,9 @@
                                 </div>
                             </div>
                             <div class="form-group row custom_form">
-                                <label class="col-sm-3 col-form-label">Due</label>
+                                <label class="col-sm-3 col-form-label">Phone</label>
                                 <div class="col-sm-9">
-                                    <input type="txet" class="form-control" v-model="selectedSupplier.previous_due" placeholder="0.00" readonly>
+                                    <input type="txet" class="form-control" v-model="selectedSupplier.phone" placeholder="Phone" readonly>
                                 </div>
                             </div>
                             <div class="form-group row custom_form">
@@ -163,7 +163,7 @@
                     </div>
                     <div class="form-group" style="margin-top: -14px;">
                         <label>Transport Amount</label>
-                        <input type="text" class="form-control" v-model="purchase.transport_amount" @input="calculation()">
+                        <input type="text" class="form-control" v-model="purchase.transport_cost" @input="calculation()">
                     </div>
                     <div class="form-group" style="margin-top: -14px;">
                         <label>Total Amount</label>
@@ -219,19 +219,19 @@
             sub_total: 0,
             vat_percent: 0,
             vat_amount: 0,
-            transport_amount: 0,
+            transport_cost: 0,
             discount_amount: 0,
             paid: 0,
             due:0,
             total: 0,
-            edit: false,
+            purchase: <?php echo $edit_id;?>,
         },
         suppliers: [],
         selectedSupplier: {
             display_name: 'Select Supplier',
             supplier_id: '',
             name: '',
-            previous_due:''
+            phone: ''
         },
         products: [],
         selectedProduct: {
@@ -259,6 +259,9 @@
         this.getSelectedProducts();
         this.getSelectedGroups();
         this.getBranch();
+        if(this.purchase.purchase){
+            this.editPurchase();
+        }
      },
      methods:{
         getInvoice(){
@@ -345,7 +348,7 @@
         },
         calculation(){
             this.purchase.sub_total = this.cart.reduce((prev, curr) => { return prev + (parseFloat(curr.purchase_rate) * parseFloat(curr.qty) ); }, 0);
-            this.purchase.total = (parseFloat(this.purchase.sub_total) + parseFloat(this.purchase.vat_amount) + parseFloat(this.purchase.transport_amount)) - parseFloat(this.purchase.discount_amount);
+            this.purchase.total = (parseFloat(this.purchase.sub_total) + parseFloat(this.purchase.vat_amount) + parseFloat(this.purchase.transport_cost)) - parseFloat(this.purchase.discount_amount);
             this.purchase.due = this.purchase.total - parseFloat(this.purchase.paid);
         },
         calPercentToAmount(){
@@ -359,7 +362,7 @@
         savePurchase(){
             this.loading = true;
             let url = "/save-purchase";
-            if(this.purchase.edit){ url = "/update-purchase"}
+            if(this.purchase.purchase !=0){ url = "/update-purchase"}
             this.purchase.supplier_id = this.selectedSupplier.supplier_id;
             if(this.cart.length==0){
                 alert("Your Cart Empty !!!");
@@ -388,6 +391,14 @@
                         window.location = '/product-purchase';
                     }
                 }
+            })
+        },
+        editPurchase(){
+            axios.post("/get-single-purchase-data",{id: this.purchase.purchase}).then(res => {
+                let r = res.data;
+                this.purchase = r.masterData;
+                this.cart = r.purchase_detail;
+                this.selectedSupplier = r.supplier;
             })
         },
         clearFrom(){

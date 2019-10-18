@@ -1,14 +1,14 @@
 <div id="sidebar-wrapper" class="bg-theme bg-theme9" data-simplebar="" data-simplebar-auto-hide="true">
     <div class="brand-logo">
         <a href="/home">
-            <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+            <img src="/assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
             <h5 class="logo-text" style="font-weight: bold;">EASY POS SYSTEM</h5>
         </a>
     </div>
     <div class="user-details">
         <div class="media align-items-center user-pointer collapsed" data-toggle="collapse"
             data-target="#user-dropdown">
-            <div class="avatar"><img class="mr-3 side-user-img" src="assets/images/avatars/hasan.jpg" alt="user avatar">
+            <div class="avatar"><img class="mr-3 side-user-img" src="/assets/images/avatars/hasan.jpg" alt="user avatar">
             </div>
             <div class="media-body">
                 <h6 class="side-user-name">Hasan Sheikh</h6>

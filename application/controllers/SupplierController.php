@@ -27,7 +27,6 @@ class SupplierController extends CI_Controller
                         SELECT
                          sp.supplier_id,
                          sp.phone,
-                         sp.due_amount as previous_due,
                          sp.name,
                          CONCAT(sp.name,' - ', sp.supplier_code) as display_name
                         FROM tbl_suppliers as sp

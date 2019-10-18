@@ -53,7 +53,7 @@
                     <td>{{purchase.total - purchase.paid}}</td>
                     <td>{{purchase.previous_due}}</td>
                     <td>
-                    <button type="button" class="button"><i class="fa fa-pencil"></i></button>
+                    <button @click.prevent="edit(purchase.purchase_id)" type="button" class="button"><i class="fa fa-pencil"></i></button>
                     <button type="button" class="button"><i class="fa fa-trash"></i></button>
                     </td>
                   </tr>
@@ -101,6 +101,9 @@
             this.purchases = res.data;
             this.show = true;
           })
+        },
+        edit(id){
+          window.open('/product-purchase/'+id, '_blank');
         }
     }
 
