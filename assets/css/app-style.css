@@ -5787,8 +5787,11 @@ table.grid td {
 
 }
 input.form-control{
-    height: 32px !important;
-    border-radius: 0px !important;
+    /* height: 32px !important; */
+    /* border-radius: 0px !important; */
+    height: 26px !important;
+    border-radius: 4px !important;
+    font-size: 14px;
 }
 select.form-control {
     height: 32px !important;
@@ -5799,10 +5802,14 @@ select.form-control {
     margin-right: 12px;
     padding: 7px 14px;
     width: 13px;
+    height: 26px;
+    text-align: center;
 }
 .custom-icon{
-    margin-left: -4px;
-    font-size: 14px;
+    font-size: 14px !important;
+    top: 6px !important;
+    position: absolute !important;
+    left: 3px !important;
 }
 a{
     cursor: pointer !important;
@@ -5838,14 +5845,30 @@ a{
     line-height: 10px !important;
 }
 .custom_form {
-    margin-bottom: 0.3rem;
+    margin-bottom: -1.9px;
     text-align: end;
-    text-transform: lowercase;
+    /* text-transform: lowercase; */
+}
+.v-select .selected-tag {
+    margin: 5px 7px !important;
+    white-space: nowrap !important;
+    position: absolute !important;
+    left: 0px !important;
 }
 .dropdown-toggle{
-    height: 32px;
-    padding: 0px;
+    height: 26px !important;
+    padding: 0px !important;
+    font-size: 14px !important;
 }
 .v-select .vs__selected-options{
-    margin-top: -4px;
+    margin-top: -4px !important;
+    overflow: hidden;
+    flex-wrap: nowrap;
+}
+.mx-input-append{
+    padding: 2px !important;
+    width: 21px !important; 
+}
+.mx-input{
+    height: 26px !important;
 }

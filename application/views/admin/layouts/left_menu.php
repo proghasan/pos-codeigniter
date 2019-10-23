@@ -32,7 +32,7 @@
             </a>
             <ul class="sidebar-submenu">
                 <li>
-                    <a href="/"><i class="zmdi zmdi-long-arrow-right"></i>Sales</a>
+                    <a href="/sale"><i class="zmdi zmdi-long-arrow-right"></i>Sales</a>
                 </li>
             </ul>
         </li>

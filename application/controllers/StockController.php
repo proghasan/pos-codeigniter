@@ -40,19 +40,23 @@ class StockController extends CI_Controller
             $end .= " HAVING current_stock = 0";
         }
         $stock = $this->db->query("
-                        select 
-                         p.product_name,
-                         p.product_code,
-                         i.sale_rate,
-                         i.purchase_rate,
-                         i.sale_quantity,
-                         i.sale_return_quantity,
-                         g.group_name,
-                         ((i.purchase_quantity+i.transfer_to_quantity) - (i.sale_quantity+i.sale_return_quantity+i.transfer_from_quantity+i.purchase_return_quantity)) as current_stock
+                            select 
+                                p.product_name,
+                                p.product_code,
+                                i.sale_rate,
+                                i.purchase_rate,
+                                i.total_purchase_qty,
+                                i.total_purchase_return_qty,
+                                i.total_sale_qty,
+                                i.total_sale_return_qty,
+                                g.group_name,
+                                i.group_id,
+                                CONCAT(p.product_name,'-',p.product_code,'-',g.group_name) as display_name,
+                                ((i.total_purchase_qty+i.total_sale_return_qty) - (i.total_purchase_return_qty +i.total_sale_qty) ) as current_stock 
 
-                        from tbl_current_inventory as i 
-                        left join tbl_products as p on p.product_id = i.product_id
-                        left join tbl_groups as g on g.id = i.group_id 
+                            from tbl_current_inventory as i 
+                            left join tbl_products as p on p.product_id = i.product_id
+                            left join tbl_groups as g on g.id = i.group_id 
                         where i.branch = '$this->branch' $end")->result();
                         // echo  $this->db->last_query();exit;
         echo json_encode($stock);

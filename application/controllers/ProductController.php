@@ -109,4 +109,20 @@ class ProductController extends CI_Controller
                                 AND p.branch = ? ",$this->branch)->result();
         echo json_encode($selectProduct);
     }
+
+    public function getSaleProducts(){
+        $selectProduct = $this->db->query("
+                                SELECT
+                                 p.product_id,
+                                 p.product_name,
+                                 p.product_code,
+                                 CONCAT(p.product_name,'-',p.product_code) as display_name
+
+                                FROM tbl_products as p
+                                LEFT JOIN tbl_units as u on u.id = p.unit_id
+                                LEFT JOIN tbl_colors as c on c.id = p.color_id
+                                WHERE p.is_deleted = 0 
+                                AND p.branch = ? ",$this->branch)->result();
+        echo json_encode($selectProduct);  
+    }
 }

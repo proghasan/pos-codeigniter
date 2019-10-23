@@ -36,6 +36,7 @@
                       <th>Product Name</th>
                       <th>Group Name</th>
                       <th>Purchase Rate</th>
+                      <th>Purchase Return</th>
                       <th>Sale Rate</th>
                       <th>Total Sale</th>
                       <th>Sale Return</th>
@@ -49,9 +50,10 @@
                       <td>{{ stock.product_name }}</td>
                       <td>{{ stock.group_name }}</td>
                       <td>{{ stock.purchase_rate }}</td>
+                      <td>{{ stock.total_purchase_return_qty }}</td>
                       <td>{{ stock.sale_rate }}</td>
-                      <td>{{ stock.sale_quantity }}</td>
-                      <td>{{ stock.sale_return_quantity }}</td>
+                      <td>{{ stock.total_sale_qty }}</td>
+                      <td>{{ stock.total_sale_return_qty }}</td>
                       <td>{{ stock.current_stock }}</td>
                   </tr>
               </tbody>

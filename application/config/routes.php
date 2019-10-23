@@ -31,6 +31,7 @@ $route['delete-color'] = 'ColorController/deleteColor';
 //============= Product Section Start ================//
 $route['product'] = 'ProductController';
 $route['get-products'] = 'ProductController/getProducts';
+$route['get-selected-sale-products'] = 'ProductController/getSaleProducts';
 $route['save-product'] = 'ProductController/addProduct';
 $route['update-product'] = 'ProductController/updateProduct';
 $route['delete-product'] = 'ProductController/deleteProduct';
@@ -73,6 +74,14 @@ $route['get-purchase-invoice'] = 'BasicController/getPurchaseInvoice';
 $route['stock'] = 'StockController';
 $route['get-current-stock'] = 'StockController/getCurrentStock';
 //============= stak End ================//
+
+//============= Sales start ================//
+$route['sale'] = 'SalesController';
+//============= Sales End ================//
+
+//============= Customer start ================//
+$route['get-customes'] = 'CustomerController/getCustomers';
+//============= Customer End ================//
 
 
 
