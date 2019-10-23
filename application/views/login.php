@@ -19,7 +19,12 @@
   <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
   <!-- Custom Style-->
   <link href="assets/css/app-style.css" rel="stylesheet"/>
-  
+  <style>
+    .icon{
+      right: -15px !important;
+     margin-top: -6px !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -42,7 +47,7 @@
 			  <label for="user_name" class="sr-only">Username</label>
 			   <div class="position-relative has-icon-right">
 				  <input type="text" id="user_name" name="user_name" class="form-control input-shadow" placeholder="Enter Username" required>
-				  <div class="form-control-position">
+				  <div class="form-control-position icon">
 					  <i class="icon-user"></i>
 				  </div>
 			   </div>
@@ -51,7 +56,7 @@
 			  <label for="password" class="sr-only">Password</label>
 			   <div class="position-relative has-icon-right">
 				  <input type="password" id="password" name="password" class="form-control input-shadow" placeholder="Enter Password" required>
-				  <div class="form-control-position">
+				  <div class="form-control-position icon">
 					  <i class="icon-lock"></i>
 				  </div>
 			   </div>
@@ -97,13 +102,8 @@
   <!-- Bootstrap core JavaScript-->
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/popper.min.js"></script>
-  <script src="assets/js/bootstrap.min.js"></script>
-	
-  <!-- sidebar-menu js -->
-  <script src="assets/js/sidebar-menu.js"></script>
-  
+  <script src="assets/js/bootstrap.min.js"></script>  
   <!-- Custom scripts -->
-  <script src="assets/js/app-script.js"></script>
   
 </body>
 
