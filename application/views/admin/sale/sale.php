@@ -68,7 +68,7 @@
                             <div class="form-group row custom_form" style="margin-top: -13px;">
                                 <label class="col-sm-3 col-form-label">Product</label>
                                 <div class="col-sm-8">
-                                 <v-select :options="products" v-model="selectedProduct" label="display_name" v-if="products.length > 0" @input="genBarcode()"></v-select>
+                                 <v-select :options="products" v-model="selectedProduct" label="display_name" v-if="products.length > 0"></v-select>
                                 </div>
                                 <div class="col-sm-1" style="padding: 0px">
                                     <a href="/product" target="_blank"
@@ -78,26 +78,26 @@
                                 </div>
                             </div>
                             <div class="form-group row custom_form">
-                                <label class="col-sm-3 col-form-label">Pr.Group</label>
+                                <label class="col-sm-3 col-form-label">Stock</label>
                                 <div class="col-sm-9">
-                                <v-select :options="groups" v-model="selectedGroup" label="display_name" v-if="groups.length > 0" @input="genBarcode()"></v-select>
+                                    <input :readonly="inputDisable" type="txet" class="form-control" v-model="selectedProduct.current_stock" placeholder="0" readonly>
                                 </div>
                             </div>
                             <div class="form-group row custom_form">
-                                <label class="col-sm-3 col-form-label">Pur.Rate</label>
+                                <label class="col-sm-3 col-form-label">Sale Rate</label>
                                 <div class="col-sm-9">
-                                    <input :readonly="inputDisable" type="txet" class="form-control" v-model="temp.sale_rate" placeholder="sale Rate" @click="temp.sale_rate = temp.sale_rate == 0 ? '' : temp.sale_rate">
+                                    <input :readonly="inputDisable" type="txet" class="form-control" @input="totalTemp" v-model="selectedProduct.sale_rate" placeholder="sale Rate" @click="temp.sale_rate = temp.sale_rate == 0 ? '' : temp.sale_rate">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3"></div>
                                 <div class="form-group col-md-5">
                                     <label>Qty</label>
-                                    <input type="text" class="form-control" v-model="temp.qty" @click="temp.qty = temp.qty==0 ? '' : temp.qty" placeholder="Qty">
+                                    <input type="text" class="form-control" v-model="temp.qty" @input="totalTemp" @click="temp.qty = temp.qty==0 ? '' : temp.qty" placeholder="Qty">
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label>Sale Rate</label>
-                                    <input :readonly="inputDisable" type="text" class="form-control" v-model="temp.sale_rate" @click="temp.sale_rate = temp.sale_rate ==0 ? '': temp.sale_rate" placeholder="Sale Rate">
+                                    <label>Total</label>
+                                    <input :readonly="inputDisable" type="text" class="form-control" v-model="temp.total" placeholder="0.00" readonly>
                                 </div>
                             </div>
                             <button @click.prevent="addCart()" class="btn btn-sm btn-warning" style="float: right" :disabled="loading ">{{ loading ? 'loading...' : 'Add Box'}}</button>
@@ -112,7 +112,6 @@
                         <th>Pro.Name</th>
                         <th>Group</th>
                         <th>Sale Rate</th>
-                        <th>Pur.Rate</th>
                         <th>Qty</th>
                         <th>Total</th>
                         <th>Action</th>
@@ -123,7 +122,6 @@
                         <td>{{index+1}}</td>
                         <td>{{cartData.product_name}}</td>
                         <td>{{cartData.group_name}}</td>
-                        <td>{{cartData.sale_rate}}</td>
                         <td>{{cartData.sale_rate}}</td>
                         <td>{{cartData.qty}}</td>
                         <td>{{cartData.sale_rate * cartData.qty}}</td>
@@ -179,7 +177,7 @@
                         </div>
                         </div>
                    <div style="margin-top: -14px;">
-                    <button @click.prevent="savesale()" type="button" class="btn btn-success btn-sm waves-effect waves-light m-1" :disabled="loading">{{ loading ? 'loading...' : 'sale Now'}}</button>
+                    <button @click.prevent="saveSale()" type="button" class="btn btn-success btn-sm waves-effect waves-light m-1" :disabled="loading">{{ loading ? 'loading...' : 'sale Now'}}</button>
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light m-1">Cancel</button>
                    </div>
                 </div>
@@ -203,13 +201,8 @@
         loading: false, 
         inputDisable: false,
         temp: {
-            product_id: '',
-            group_id: '',
-            sale_rate: 0,
-            sale_rate: 0,
-            sub_total: 0,
-            qty: 0,
-            barcode: ''
+            total: 0,
+            qty: 0
         },
         sale: {
             sale_date: moment().format("YYYY-MM-DD"),
@@ -296,39 +289,23 @@
             this.branch_info = res.data;
           })
         },
-        genBarcode(){
-            // note check this group product have or not this sale_details table
-           if(this.selectedProduct.product_id !="" && this.selectedGroup.id !=""){
-              this.temp.barcode = this.selectedProduct.product_code+this.selectedGroup.id;
-               //check this product already have or not in currentinventory
-              axios.post("/check-already-exist",{product_id: this.selectedProduct.product_id , group_id: this.selectedGroup.id}).then(res => {
-                  let r =res.data;
-                 if(r.success){
-                   this.temp.sale_rate = r.sale_rate;
-                   this.temp.sale_rate = r.sale_rate;
-                   this.inputDisable = true;
-                 }else{
-                   this.temp.sale_rate = 0;
-                   this.temp.sale_rate = 0;
-                   this.inputDisable = false;
-                 }
-              })
-           }
+        totalTemp(){
+            this.temp.total = parseFloat(this.selectedProduct.sale_rate) * parseFloat(this.temp.qty);
         },
         addCart(){
             this.inputDisable = false;
             this.loading = true;
+            if(this.selectedProduct.current_stock < 0){
+                alert("Your Stock not available");
+                this.loading = false;
+                return;
+            }
             if(this.selectedProduct.product_id ==""){
                 alert("Please Select Product");
                 this.loading = false;
                 return;
             }
-            if(this.selectedGroup.id ==""){
-                alert("Please Select Group");
-                this.loading = false;
-                return;
-            }
-            if(this.temp.sale_rate == "" || this.temp.sale_rate =="" || this.temp.qty ==""){
+            if(this.selectedProduct.sale_rate == "" || this.temp.qty ==""){
                 alert("Please Select Fill All Field !!!");
                 this.loading = false;
                 return;
@@ -336,11 +313,9 @@
             let tempCart = {
                 product_id: this.selectedProduct.product_id,
                 product_name: this.selectedProduct.product_name,
-                group_id: this.selectedGroup.id,
-                group_name: this.selectedGroup.group_name,
-                sale_rate: this.temp.sale_rate,
-                sale_rate: this.temp.sale_rate,
-                barcode: this.temp.barcode,
+                group_id: this.selectedProduct.id,
+                group_name: this.selectedProduct.group_name,
+                sale_rate: this.selectedProduct.sale_rate,
                 qty: this.temp.qty
             }
             this.cart.push(tempCart);
@@ -366,7 +341,9 @@
             this.sale.vat_percent = (parseFloat(this.sale.vat_amount) * 100) / parseFloat(this.sale.sub_total);
             this.calculation()
         },
-        savesale(){
+        saveSale(){
+            alert("Under Constrution, Please Wait");
+            return;
             this.loading = true;
             let url = "/save-sale";
             if(this.sale.sale !=0){ url = "/update-sale"}
@@ -412,23 +389,14 @@
             this.selectedGroup = null;
             // this.selectedProduct = null;
             this.temp= {
-              product_id: '',
-              group_id: '',
-              sale_rate: 0,
-              sale_rate: 0,
               qty: 0,
-              barcode: ''
+              total:0
             },
             this.selectedProduct= {
               product_id: '',
               display_name: 'Select Product',
               product_name: '',
               product_code: ''
-            },
-            this.selectedGroup= {
-              display_name: 'Select Group',
-              id: '',
-              group_name: ''
             }
         }
         

@@ -22,5 +22,5 @@ LEFT JOIN tbl_sale_return as sr ON sr.product_id = pd.product_id AND sr.group_id
 
 WHERE pd.is_deleted = 0
 AND pd.branch =1
-GROUP BY pd.product_id,pd.group_id
+GROUP BY pd.product_id,pd.group_id,pd.branch
 ) as t WHERE ( (t.total_purchase_qty+t.total_sale_return_qty) - (t.total_purchase_return_qty +t.total_sale_qty) ) > 0

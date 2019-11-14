@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2019 at 04:50 PM
+-- Generation Time: Nov 14, 2019 at 08:07 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -97,34 +97,22 @@ INSERT INTO `tbl_colors` (`id`, `color_name`, `is_deleted`, `added_by`, `update_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_current_inventory`
+-- Stand-in structure for view `tbl_current_inventory`
+-- (See below for the actual view)
 --
-
 CREATE TABLE `tbl_current_inventory` (
-  `inventory_id` int(11) NOT NULL,
-  `barcode` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `purchase_quantity` int(11) NOT NULL,
-  `purchase_rate` decimal(15,2) NOT NULL,
-  `sale_quantity` int(11) NOT NULL,
-  `sale_rate` decimal(15,2) NOT NULL,
-  `purchase_return_quantity` int(11) NOT NULL,
-  `sale_return_quantity` int(11) NOT NULL,
-  `transfer_from_quantity` int(11) NOT NULL,
-  `transfer_to_quantity` int(11) NOT NULL,
-  `damage_quantity` int(11) NOT NULL,
-  `branch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_current_inventory`
---
-
-INSERT INTO `tbl_current_inventory` (`inventory_id`, `barcode`, `product_id`, `group_id`, `purchase_quantity`, `purchase_rate`, `sale_quantity`, `sale_rate`, `purchase_return_quantity`, `sale_return_quantity`, `transfer_from_quantity`, `transfer_to_quantity`, `damage_quantity`, `branch`) VALUES
-(9, 'P000023', 2, 3, 431, '100.00', 0, '150.00', 0, 0, 0, 0, 0, 1),
-(10, 'P000014', 1, 4, 2, '20.00', 0, '50.00', 0, 0, 0, 0, 0, 1),
-(11, 'P000024', 2, 4, 294, '120.00', 0, '150.00', 0, 0, 0, 0, 0, 1);
+`product_id` int(11)
+,`product_name` varchar(150)
+,`product_code` varchar(20)
+,`group_id` tinyint(4)
+,`purchase_rate` decimal(10,2)
+,`sale_rate` decimal(10,2)
+,`total_purchase_qty` decimal(32,0)
+,`total_purchase_return_qty` decimal(32,0)
+,`total_sale_qty` decimal(32,0)
+,`total_sale_return_qty` decimal(27,0)
+,`branch` tinyint(4)
+);
 
 -- --------------------------------------------------------
 
@@ -134,18 +122,48 @@ INSERT INTO `tbl_current_inventory` (`inventory_id`, `barcode`, `product_id`, `g
 
 CREATE TABLE `tbl_customers` (
   `customer_id` int(11) NOT NULL,
+  `customer_code` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `is_general` tinyint(1) NOT NULL DEFAULT '0',
-  `due_amount` decimal(15,2) NOT NULL,
-  `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_phone` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `branch` tinyint(4) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `added_by` tinyint(4) NOT NULL,
   `added_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `update_by` tinyint(4) NOT NULL,
   `update_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_customers`
+--
+
+INSERT INTO `tbl_customers` (`customer_id`, `customer_code`, `is_general`, `customer_name`, `customer_phone`, `customer_email`, `customer_address`, `branch`, `is_deleted`, `added_by`, `added_time`, `update_by`, `update_time`) VALUES
+(1, 'C0000001', 1, 'General Customer', '00000', '-', '-', 1, 0, 1, '', 0, ''),
+(2, 'C00002', 0, 'Jabed Khan', '01878787232', 'a@gmail.com', 'Dhaka', 1, 0, 1, '', 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_customer_payment`
+--
+
+CREATE TABLE `tbl_customer_payment` (
+  `customer_payment_id` int(11) NOT NULL,
+  `entry_date` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `is_received` tinyint(1) NOT NULL DEFAULT '1',
+  `amount` decimal(15,2) NOT NULL,
+  `current_due` decimal(20,2) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `branch` tinyint(4) NOT NULL,
+  `added_by` tinyint(4) NOT NULL,
+  `added_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `updated_by` tinyint(4) NOT NULL,
+  `updated_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `log` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -157,6 +175,7 @@ CREATE TABLE `tbl_customers` (
 CREATE TABLE `tbl_groups` (
   `id` int(11) NOT NULL,
   `group_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `branch` tinyint(4) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `added_by` tinyint(4) NOT NULL,
   `update_by` tinyint(4) DEFAULT NULL,
@@ -168,13 +187,13 @@ CREATE TABLE `tbl_groups` (
 -- Dumping data for table `tbl_groups`
 --
 
-INSERT INTO `tbl_groups` (`id`, `group_name`, `is_deleted`, `added_by`, `update_by`, `added_time`, `update_time`) VALUES
-(1, 'AA', 0, 1, NULL, '2019-09-28 18:18:02', NULL),
-(2, 'HH', 0, 1, NULL, '2019-09-28 18:18:35', NULL),
-(3, 'HKJDW', 0, 1, NULL, '2019-09-28 18:39:46', NULL),
-(4, 'ASA', 0, 1, NULL, '2019-09-28 18:39:48', NULL),
-(5, 'AS', 0, 1, NULL, '2019-09-28 18:39:50', NULL),
-(6, 'AS New', 1, 1, 1, '2019-09-28 18:39:52', '2019-09-28 20:19:13');
+INSERT INTO `tbl_groups` (`id`, `group_name`, `branch`, `is_deleted`, `added_by`, `update_by`, `added_time`, `update_time`) VALUES
+(1, 'AA', 0, 0, 1, NULL, '2019-09-28 18:18:02', NULL),
+(2, 'HH', 0, 0, 1, NULL, '2019-09-28 18:18:35', NULL),
+(3, 'HKJDW', 0, 0, 1, NULL, '2019-09-28 18:39:46', NULL),
+(4, 'ASA', 0, 0, 1, NULL, '2019-09-28 18:39:48', NULL),
+(5, 'AS', 0, 0, 1, NULL, '2019-09-28 18:39:50', NULL),
+(6, 'AS New', 0, 1, 1, 1, '2019-09-28 18:39:52', '2019-09-28 20:19:13');
 
 -- --------------------------------------------------------
 
@@ -250,7 +269,8 @@ INSERT INTO `tbl_purchases_details` (`purchase_detail_id`, `purchase_id`, `produ
 (25, 16, 2, '', 3, 5, '100.00', '150.00', '2019-10-07', '500.00', 1, 0, 1, '2019-10-18 04:32:08', 0, ''),
 (26, 27, 2, 'P000024', 4, 10, '120.00', '150.00', '2019-10-18', '1200.00', 1, 1, 1, '2019-10-18 04:38:53', 0, ''),
 (27, 27, 1, 'P000013', 3, 12, '12.00', '1212.00', '2019-10-18', '144.00', 1, 1, 1, '2019-10-18 04:38:53', 0, ''),
-(28, 27, 2, 'P000024', 4, 10, '120.00', '150.00', '2019-10-18', '1200.00', 1, 0, 1, '2019-10-18 04:41:22', 0, '');
+(28, 27, 2, 'P000024', 4, 10, '120.00', '150.00', '2019-10-18', '1200.00', 1, 0, 1, '2019-10-18 04:41:22', 0, ''),
+(29, 28, 2, 'P000023', 3, 100, '100.00', '180.00', '2019-10-18', '10000.00', 1, 0, 1, '2019-10-18 07:23:07', 0, '');
 
 -- --------------------------------------------------------
 
@@ -300,7 +320,8 @@ INSERT INTO `tbl_purchase_master` (`purchase_id`, `supplier_id`, `invoice`, `sub
 (24, 1, 2019100024, '10000.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '10000.00', '0.00', '10000.00', '0.00', '', 1, '2019-10-08', 0, 1, '2019-10-07 08:43:44', '', ''),
 (25, 1, 2019100025, '12100.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0.6, '12100.00', '0.00', '12100.00', '0.00', '', 1, '2019-10-08', 0, 1, '2019-10-07 08:44:03', '', ''),
 (26, 1, 2019100026, '600.00', 0, '0.00', 0, '0.00', '0.00', '0.00', 0, '600.00', '0.00', '600.00', '75734.00', '', 1, '2019-10-18', 0, 1, '2019-10-18 04:20:37', '', ''),
-(27, 1, 2019100027, '1344.00', 0, '10.00', 10, '134.40', '20.00', '0.00', 0, '1488.40', '200.00', '1288.40', '77622.40', '', 1, '2019-10-18', 0, 1, '2019-10-18 04:38:53', '', '');
+(27, 1, 2019100027, '1344.00', 0, '10.00', 10, '134.40', '20.00', '0.00', 0, '1488.40', '200.00', '1288.40', '77622.40', '', 1, '2019-10-18', 0, 1, '2019-10-18 04:38:53', '', ''),
+(28, 1, 2019100028, '10000.00', 0, '100.00', 12, '1200.00', '12.00', '0.00', 0, '11112.00', '9000.00', '2112.00', '77622.40', '', 1, '2019-10-18', 0, 1, '2019-10-18 07:23:06', '', '');
 
 -- --------------------------------------------------------
 
@@ -315,7 +336,6 @@ CREATE TABLE `tbl_purchase_return` (
   `supplier_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
-  `cash_back_amount` decimal(15,2) NOT NULL,
   `qty` int(11) NOT NULL,
   `purchase_price` decimal(15,2) NOT NULL,
   `total` decimal(15,2) NOT NULL,
@@ -401,6 +421,7 @@ CREATE TABLE `tbl_sale_return` (
   `total` decimal(15,2) NOT NULL,
   `branch` tinyint(4) NOT NULL,
   `return_date` date NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `added_by` int(11) NOT NULL,
   `added_time` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `update_by` tinyint(4) NOT NULL,
@@ -496,6 +517,15 @@ INSERT INTO `tbl_units` (`id`, `unit_name`, `is_deleted`, `added_by`, `update_by
 (15, 'KK', 0, 1, NULL, '2019-10-13 19:41:59', ''),
 (16, 'KKpp', 0, 1, NULL, '2019-10-13 19:42:05', '');
 
+-- --------------------------------------------------------
+
+--
+-- Structure for view `tbl_current_inventory`
+--
+DROP TABLE IF EXISTS `tbl_current_inventory`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tbl_current_inventory`  AS  select `p`.`product_id` AS `product_id`,`p`.`product_name` AS `product_name`,`p`.`product_code` AS `product_code`,`pd`.`group_id` AS `group_id`,`pd`.`purchase_rate` AS `purchase_rate`,`pd`.`sale_rate` AS `sale_rate`,ifnull(sum(`pd`.`qty`),0) AS `total_purchase_qty`,ifnull(sum(`pr`.`qty`),0) AS `total_purchase_return_qty`,ifnull(sum(`sd`.`qty`),0) AS `total_sale_qty`,ifnull(sum(`sr`.`qty`),0) AS `total_sale_return_qty`,`pd`.`branch` AS `branch` from (((((`tbl_purchases_details` `pd` left join `tbl_products` `p` on(((`p`.`product_id` = `pd`.`product_id`) and (`p`.`is_deleted` = 0) and (`p`.`branch` = 1)))) left join `tbl_groups` `g` on(((`g`.`id` = `pd`.`group_id`) and (`g`.`is_deleted` = 0) and (`g`.`branch` = 1)))) left join `tbl_purchase_return` `pr` on(((`pr`.`product_id` = `pd`.`product_id`) and (`pr`.`group_id` = `pd`.`group_id`) and (`pr`.`is_deleted` = 0) and (`pr`.`branch` = 1)))) left join `tbl_sale_details` `sd` on(((`sd`.`product_id` = `pd`.`product_id`) and (`sd`.`group_id` = `pd`.`group_id`) and (`sd`.`is_deleted` = 0) and (`sd`.`branch` = 1)))) left join `tbl_sale_return` `sr` on(((`sr`.`product_id` = `pd`.`product_id`) and (`sr`.`group_id` = `pd`.`group_id`) and (`sr`.`is_deleted` = 0)))) where ((`pd`.`is_deleted` = 0) and (`pd`.`branch` = 1)) group by `pd`.`product_id`,`pd`.`group_id`,`pd`.`branch` ;
+
 --
 -- Indexes for dumped tables
 --
@@ -519,16 +549,16 @@ ALTER TABLE `tbl_colors`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_current_inventory`
---
-ALTER TABLE `tbl_current_inventory`
-  ADD PRIMARY KEY (`inventory_id`);
-
---
 -- Indexes for table `tbl_customers`
 --
 ALTER TABLE `tbl_customers`
   ADD PRIMARY KEY (`customer_id`);
+
+--
+-- Indexes for table `tbl_customer_payment`
+--
+ALTER TABLE `tbl_customer_payment`
+  ADD PRIMARY KEY (`customer_payment_id`);
 
 --
 -- Indexes for table `tbl_groups`
@@ -619,16 +649,16 @@ ALTER TABLE `tbl_colors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `tbl_current_inventory`
---
-ALTER TABLE `tbl_current_inventory`
-  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
 -- AUTO_INCREMENT for table `tbl_customers`
 --
 ALTER TABLE `tbl_customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tbl_customer_payment`
+--
+ALTER TABLE `tbl_customer_payment`
+  MODIFY `customer_payment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_groups`
@@ -646,13 +676,13 @@ ALTER TABLE `tbl_products`
 -- AUTO_INCREMENT for table `tbl_purchases_details`
 --
 ALTER TABLE `tbl_purchases_details`
-  MODIFY `purchase_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `purchase_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase_master`
 --
 ALTER TABLE `tbl_purchase_master`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase_return`
